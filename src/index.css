@@ -22,11 +22,13 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
   background: var(--paper-blue);
 }
 
 body {
   min-width: 320px;
+  height: 100%;
   margin: 0;
   overflow-x: hidden;
   background:
@@ -56,6 +58,10 @@ a {
 
 button {
   font: inherit;
+}
+
+main {
+  min-height: 100vh;
 }
 
 .floating-nav {
@@ -107,10 +113,60 @@ button {
   transform: translateY(-2px);
 }
 
+.section-dots {
+  position: fixed;
+  right: clamp(0.8rem, 2.5vw, 1.7rem);
+  top: 50%;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+  transform: translateY(-50%);
+}
+
+.section-dots a {
+  position: relative;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 999px;
+  background: rgba(91, 127, 166, 0.28);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.28);
+  transition: background 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+.section-dots a.active,
+.section-dots a:hover {
+  background: var(--blue);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.55);
+  transform: scale(1.35);
+}
+
+.section-dots span {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  opacity: 0;
+  color: var(--blue);
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  white-space: nowrap;
+  transform: translateY(-50%) translateX(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.section-dots a:hover span {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
 .hero-section {
   position: relative;
+  height: 100vh;
   min-height: 100vh;
   overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   padding: 6.2rem clamp(1.25rem, 6vw, 5rem) 4rem;
 }
 
@@ -131,18 +187,18 @@ button {
 
 .collage-card,
 .paper-note,
-.project-tile,
-.skill-panel,
 .contact-card {
   border-radius: 4px;
   background: #fff;
   box-shadow: var(--shadow);
 }
 
-.card-fade,
-.section-shell {
-  animation: fadeDrift 0.6s ease both;
-  animation-delay: var(--delay, 0s);
+.reveal-section {
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-fade {
+  opacity: 0;
 }
 
 .portrait-collage {
@@ -257,9 +313,8 @@ button {
 
 .doodle {
   position: absolute;
-  opacity: 0.75;
+  opacity: 0;
   mix-blend-mode: multiply;
-  animation: fadeDrift 0.6s ease 0.3s both;
 }
 
 .doodle-line {
@@ -292,20 +347,33 @@ button {
 
 .section-shell {
   width: min(100%, 78rem);
+  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: clamp(4.9rem, 8vh, 6rem) clamp(1.25rem, 5vw, 4rem) clamp(1.6rem, 4vh, 3rem);
+}
+
+.about-section,
+.projects-section,
+.skills-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .section-heading {
   max-width: 52rem;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1rem, 2.2vh, 1.6rem);
 }
 
 .section-heading h2 {
   margin: 0.25rem 0 0;
   color: #2f5d8e;
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(3.3rem, 8vw, 6.8rem);
+  font-size: clamp(2.8rem, 7vw, 5.6rem);
   line-height: 0.9;
 }
 
@@ -325,15 +393,15 @@ button {
   border-radius: 4px;
   background: #fff;
   box-shadow: var(--shadow);
-  padding: clamp(1.4rem, 4vw, 3rem);
+  padding: clamp(1.1rem, 3vh, 2rem);
   transform: rotate(-0.5deg);
 }
 
 .letter-card h3 {
-  margin: 0 0 1.4rem;
+  margin: 0 0 clamp(0.7rem, 1.6vh, 1.1rem);
   color: var(--blue);
   font-family: 'Caveat', cursive;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
   line-height: 0.9;
 }
 
@@ -347,48 +415,110 @@ button {
   padding: 0;
 }
 
-.small-note {
-  display: inline-block;
-  width: min(100%, 32rem);
-  margin: 0.7rem 0.7rem 0.7rem 0;
-  vertical-align: top;
+.large-note p {
+  margin: 0 0 clamp(0.8rem, 1.8vh, 1.2rem);
+  font-size: clamp(0.88rem, 1.7vh, 1rem);
 }
 
-.small-note:nth-of-type(2) {
-  transform: rotate(1.5deg);
+.about-stack {
+  position: relative;
+  width: min(100%, 42rem);
+  height: clamp(10rem, 22vh, 13.5rem);
+  margin: clamp(0.9rem, 2vh, 1.2rem) 0;
+  isolation: isolate;
 }
 
-.small-note:nth-of-type(3) {
-  transform: rotate(-1.2deg);
+.stack-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  cursor: pointer;
+  padding: clamp(0.95rem, 2.3vh, 1.35rem);
+  text-align: left;
+  transform-origin: center;
+  transition:
+    transform 0.58s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.45s ease,
+    box-shadow 0.45s ease,
+    z-index 0s linear 0.2s;
 }
 
-.paper-note h3 {
-  margin: 0 0 0.8rem;
+.stack-card.is-front {
+  z-index: 2;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  animation: stackPop 0.58s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.stack-card.is-back {
+  z-index: 1;
+  opacity: 0.9;
+  transform: translate3d(8px, 8px, 0) scale(0.965) rotate(1deg);
+}
+
+.stack-card.is-front:hover {
+  box-shadow: 6px 12px 24px rgba(0, 0, 0, 0.12);
+  transform: translate3d(-4px, -3px, 0) scale(1.01);
+}
+
+.education-card {
+  background: #fff;
+}
+
+.research-card {
+  background: #eef4fb;
+}
+
+.stack-count {
+  position: absolute;
+  right: 0.9rem;
+  top: 0.75rem;
+  color: var(--blue);
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.stack-card h3 {
+  margin: 0 0 0.65rem;
   color: var(--blue);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
+  font-size: clamp(1.7rem, 3vw, 2.25rem);
+  line-height: 1;
 }
 
-.paper-note ul {
+.stack-card ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.45rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.paper-note li {
+.stack-card li {
   border-radius: 4px;
-  background: rgba(232, 240, 247, 0.9);
-  padding: 0.55rem 0.7rem;
-  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 0.44rem 0.62rem;
+  font-size: clamp(0.78rem, 1.6vh, 0.9rem);
+  line-height: 1.35;
 }
 
 .direction-note {
-  margin-top: 1rem;
+  margin-top: clamp(0.7rem, 1.5vh, 1rem);
   background: rgba(249, 228, 183, 0.64);
   transform: rotate(0.8deg);
+}
+
+.direction-note p {
+  margin: 0;
+  font-size: clamp(0.86rem, 1.6vh, 0.98rem);
 }
 
 .wave-divider {
@@ -403,13 +533,13 @@ button {
   position: relative;
   width: min(100%, 58rem);
   margin: 0 auto;
-  padding: 1.5rem 3rem 3.2rem;
+  padding: clamp(0.6rem, 1.4vh, 1rem) 3rem clamp(2.4rem, 4vh, 3rem);
   perspective: 1800px;
 }
 
 .book-stage {
   position: relative;
-  height: clamp(34rem, 70vw, 44rem);
+  height: clamp(25rem, 55vh, 34rem);
   transform-style: preserve-3d;
 }
 
@@ -470,7 +600,7 @@ button {
     radial-gradient(circle at 92% 6%, rgba(249, 228, 183, 0.52), transparent 14rem),
     #faf8f4;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08), 18px 18px 38px rgba(0, 0, 0, 0.08);
-  padding: clamp(1.1rem, 3vw, 2rem);
+  padding: clamp(0.9rem, 2vw, 1.4rem);
   backface-visibility: hidden;
 }
 
@@ -499,7 +629,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(0.45rem, 1.2vh, 0.8rem);
 }
 
 .page-face header span {
@@ -531,7 +661,7 @@ button {
 
 .page-face img {
   width: 100%;
-  height: clamp(17rem, 37vw, 25rem);
+  height: clamp(11.5rem, 28vh, 17.5rem);
   object-fit: cover;
   transition: transform 0.6s ease, filter 0.6s ease;
 }
@@ -542,17 +672,18 @@ button {
 }
 
 .page-face h3 {
-  margin: 1.1rem 0 0.4rem;
+  margin: clamp(0.65rem, 1.4vh, 0.9rem) 0 0.25rem;
   color: var(--ink);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-size: clamp(2.3rem, 5vw, 4rem);
   line-height: 0.9;
 }
 
 .page-face p {
   max-width: 44rem;
   color: #555;
-  line-height: 1.75;
+  font-size: clamp(0.86rem, 1.7vh, 1rem);
+  line-height: 1.55;
 }
 
 .book-arrow {
@@ -622,49 +753,115 @@ button {
   width: min(100%, 68rem);
 }
 
-.skill-scroll {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
+.folder-drawer {
+  position: relative;
+  display: grid;
+  gap: clamp(0.45rem, 1.1vh, 0.75rem);
+  padding-top: 0.4rem;
 }
 
-.skill-panel {
-  width: 100%;
-  padding: 1rem;
-  transform: rotate(-0.5deg);
+.skill-folder {
+  position: relative;
+  transform: translateY(0);
+  transition: transform 0.4s ease-out;
 }
 
-.skill-panel:nth-child(even) {
-  transform: rotate(0.7deg);
+.skill-folder.is-open {
+  transform: translateY(-8px);
 }
 
-.skill-panel h3 {
-  margin: 0 0 0.35rem;
+.folder-tab {
+  position: relative;
+  z-index: 2;
+  min-width: min(100%, 18rem);
+  border: 0;
+  border-radius: 12px 12px 4px 4px;
+  background: var(--folder-color);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.06);
   color: var(--blue);
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2.3rem;
+  cursor: pointer;
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  font-weight: 700;
+  padding: 0.42rem 1.2rem 0.48rem;
+  text-align: left;
+  transform: translateX(calc(var(--folder-offset, 0) * 1rem));
+  transition: transform 0.4s ease-out, filter 0.4s ease-out;
 }
 
-.skill-panel div {
+.skill-folder:nth-child(2) {
+  --folder-offset: 1.3;
+}
+
+.skill-folder:nth-child(3) {
+  --folder-offset: 2.6;
+}
+
+.skill-folder:nth-child(4) {
+  --folder-offset: 3.9;
+}
+
+.skill-folder.is-open .folder-tab,
+.folder-tab:hover {
+  filter: brightness(1.02);
+  transform: translateX(calc(var(--folder-offset, 0) * 1rem)) translateY(-2px);
+}
+
+.folder-body {
+  overflow: hidden;
+  max-height: 0;
+  border-radius: 0 4px 4px 4px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(10px) scaleY(0.98);
+  transform-origin: top;
+  transition:
+    max-height 0.4s ease-out,
+    opacity 0.35s ease,
+    transform 0.4s ease-out;
+}
+
+.skill-folder.is-open .folder-body {
+  max-height: 15rem;
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+.folder-body p {
+  margin: 0;
+  color: #555;
+  font-size: clamp(0.85rem, 1.65vh, 1rem);
+  line-height: 1.55;
+  padding: clamp(0.75rem, 1.7vh, 1rem) 1rem 0;
+}
+
+.folder-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.8rem;
+  padding: 0.8rem 1rem 1rem;
 }
 
-.skill-panel em {
+.folder-tags em {
+  opacity: 0;
   border-radius: 4px;
   background: rgba(91, 127, 166, 0.13);
   color: var(--blue);
   padding: 0.52rem 0.7rem;
   font-style: normal;
-  font-size: 0.9rem;
+  font-size: clamp(0.78rem, 1.55vh, 0.9rem);
+}
+
+.skill-folder.is-open .folder-tags em {
+  animation: tagFadeUp 0.5s ease-out both;
+  animation-delay: var(--tag-delay);
 }
 
 .contact-card {
   width: min(100%, 42rem);
   margin: 0 auto;
-  padding: clamp(1.6rem, 5vw, 3rem);
+  padding: clamp(1.35rem, 4vw, 2.6rem);
   text-align: center;
   transform: rotate(1deg);
 }
@@ -673,8 +870,19 @@ button {
   margin: 0.5rem 0 1rem;
   color: var(--blue);
   font-family: 'Caveat', cursive;
-  font-size: clamp(2.7rem, 7vw, 5rem);
+  font-size: clamp(2.35rem, 6vw, 4.4rem);
   line-height: 0.92;
+}
+
+.contact-card h2 span {
+  display: inline-block;
+  margin-right: 0.28em;
+  opacity: 0;
+}
+
+.contact-section {
+  display: grid;
+  place-items: center;
 }
 
 .contact-links {
@@ -765,6 +973,119 @@ footer {
   line-height: 1.7;
 }
 
+.hero-section.is-visible .name-card {
+  animation: heroNameIn 0.65s var(--spring) 0.1s both;
+}
+
+.hero-section.is-visible .portrait-collage {
+  animation: heroPhotoIn 0.65s var(--spring) both;
+}
+
+.hero-section.is-visible .role-note {
+  animation: noteBounceIn 0.65s var(--spring) 0.2s both;
+}
+
+.hero-section.is-visible .welcome-note {
+  animation: welcomeBounceIn 0.65s var(--spring) 0.3s both;
+}
+
+.hero-section.is-visible .hero-intro {
+  animation: introNoteIn 0.6s ease 0.45s both;
+}
+
+.hero-section.is-visible .doodle {
+  animation: doodleFadeIn 0.6s ease 0.4s both;
+}
+
+.about-section .section-heading,
+.projects-section .section-heading,
+.skills-section .section-heading {
+  opacity: 0;
+}
+
+.about-section .letter-card,
+.projects-section .diary-book,
+.folder-drawer,
+.contact-card {
+  opacity: 0;
+}
+
+.letter-card > h3,
+.about-stack,
+.direction-note {
+  opacity: 0;
+}
+
+.about-section.is-visible .section-heading {
+  animation: slideInLeft 0.65s var(--spring) both;
+}
+
+.about-section.is-visible .letter-card {
+  animation: riseIn 0.7s var(--spring) 0.1s both;
+}
+
+.about-section.is-visible .letter-card > h3 {
+  animation: softFadeIn 0.55s ease 0.3s both;
+}
+
+.about-section.is-visible .about-stack {
+  animation: stackReveal 0.68s var(--spring) 0.4s both;
+}
+
+.about-section.is-visible .direction-note {
+  animation: softFadeIn 0.55s ease 0.55s both;
+}
+
+.projects-section.is-visible .section-heading {
+  animation: dropIn 0.65s var(--spring) both;
+}
+
+.projects-section.is-visible .diary-book {
+  animation: bookOpenIn 0.75s var(--spring) 0.15s both;
+}
+
+.skills-section.is-visible .section-heading {
+  animation: slideInLeft 0.65s var(--spring) both;
+}
+
+.skills-section.is-visible .folder-drawer {
+  opacity: 1;
+}
+
+.skills-section.is-visible .skill-folder {
+  animation: folderDropIn 0.6s var(--spring) both;
+  animation-delay: var(--folder-delay);
+}
+
+.contact-section.is-visible .contact-card {
+  animation: contactCardIn 0.72s var(--spring) both;
+}
+
+.contact-section.is-visible .contact-card h2 span {
+  animation: wordFadeIn 0.5s ease both;
+  animation-delay: var(--word-delay);
+}
+
+.contact-section.is-visible .contact-links > * {
+  animation: contactLinkIn 0.55s var(--spring) both;
+}
+
+.contact-section.is-visible .contact-links > *:nth-child(1) {
+  animation-delay: 0.36s;
+}
+
+.contact-section.is-visible .contact-links > *:nth-child(2) {
+  animation-delay: 0.46s;
+}
+
+.contact-section.is-visible .contact-links > *:nth-child(3) {
+  animation-delay: 0.56s;
+}
+
+.contact-section.is-visible .contact-links > *:nth-child(4) {
+  animation-delay: 0.66s;
+}
+
 @keyframes fadeDrift {
   from {
     opacity: 0;
@@ -772,6 +1093,200 @@ footer {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes heroNameIn {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(2deg);
+  }
+}
+
+@keyframes heroPhotoIn {
+  from {
+    opacity: 0;
+    transform: translateX(60px) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(-3deg);
+  }
+}
+
+@keyframes noteBounceIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotate(-2deg) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-2deg) scale(1);
+  }
+}
+
+@keyframes welcomeBounceIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotate(3deg) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(3deg) scale(1);
+  }
+}
+
+@keyframes introNoteIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-1deg);
+  }
+}
+
+@keyframes doodleFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.75;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px) rotate(-0.5deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-0.5deg);
+  }
+}
+
+@keyframes softFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stackReveal {
+  from {
+    opacity: 0;
+    transform: translateY(32px) rotate(3deg) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes stackPop {
+  from {
+    transform: translate3d(30px, 18px, 0) scale(0.94) rotate(3deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bookOpenIn {
+  from {
+    opacity: 0;
+    transform: translateY(45px) scale(0.95) rotateX(5deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+@keyframes folderDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tagFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contactCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes wordFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contactLinkIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -810,33 +1325,83 @@ footer {
   }
 
   .hero-section {
-    min-height: auto;
-    display: grid;
-    gap: 1rem;
-    padding-top: 6rem;
+    display: block;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 5.2rem 1.25rem 1rem;
   }
 
-  .hero-copy,
-  .portrait-collage,
-  .name-card,
-  .role-note,
-  .welcome-note,
-  .hero-intro {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    width: 100%;
-    max-width: none;
+  .hero-copy {
+    left: 7%;
+    top: 61%;
   }
 
   .portrait-collage {
-    order: 2;
+    position: absolute;
+    right: 7%;
+    top: auto;
+    bottom: 2.5%;
+    width: min(42vw, 15rem);
   }
 
   .name-card {
-    width: 100%;
+    position: absolute;
+    left: 7%;
+    right: auto;
+    top: 23%;
+    bottom: auto;
+    width: 76%;
+    padding: 1rem 1.2rem 0.8rem;
+  }
+
+  .name-card h1 {
+    font-size: clamp(3.5rem, 17vw, 6rem);
+  }
+
+  .role-note {
+    position: absolute;
+    left: 7%;
+    right: auto;
+    top: 43%;
+    bottom: auto;
+    max-width: 68%;
+  }
+
+  .welcome-note {
+    position: absolute;
+    left: 8%;
+    right: auto;
+    top: 53%;
+    bottom: auto;
+    max-width: 68%;
+  }
+
+  .hero-intro {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    top: 12%;
+    bottom: auto;
+    max-width: none;
+    padding: 0.72rem 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .section-dots {
+    right: 0.55rem;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(2.55rem, 12vw, 4.3rem);
+  }
+
+  .letter-card {
+    padding: 1rem;
+  }
+
+  .about-stack {
+    height: 11.5rem;
   }
 
   .diary-book {
@@ -844,11 +1409,11 @@ footer {
   }
 
   .book-stage {
-    height: 34rem;
+    height: 48vh;
   }
 
   .page-face img {
-    height: 14rem;
+    height: 18vh;
   }
 
   .book-arrow {

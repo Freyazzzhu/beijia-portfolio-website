@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { about, contact, home, projects, projectsIntro, skills } from './data/portfolio.js';
 import './index.css';
 import flowerDoodle from './assets/collage/flower.png';
@@ -7,13 +7,51 @@ import lineDoodle from './assets/collage/line-sticker-1.png';
 import starDoodle from './assets/collage/star-sticker.png';
 
 const navItems = ['Home', 'About', 'Projects', 'Skills', 'Contact'];
+const sectionIds = navItems.map((item) => item.toLowerCase());
 
 export default function App() {
   const [activeProject, setActiveProject] = useState(null);
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visibleEntry) setActiveSection(visibleEntry.target.id);
+      },
+      { threshold: 0.55 },
+    );
+
+    sectionIds.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const scrollToHash = () => {
+      const target = document.querySelector(window.location.hash || '#home');
+      window.setTimeout(() => target?.scrollIntoView({ block: 'start', behavior: 'auto' }), 80);
+      window.setTimeout(() => target?.scrollIntoView({ block: 'start', behavior: 'auto' }), 320);
+    };
+
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
 
   return (
     <div className="dream-site">
       <Nav />
+      <SectionDots activeSection={activeSection} />
       <main>
         <Hero />
         <About />
@@ -21,9 +59,47 @@ export default function App() {
         <Skills />
         <Contact />
       </main>
-      <Footer />
       {activeProject && <ProjectDrawer project={activeProject} onClose={() => setActiveProject(null)} />}
     </div>
+  );
+}
+
+function useRevealSection() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          node.classList.add('is-visible');
+          observer.unobserve(node);
+        }
+      },
+      { threshold: 0.15 },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
+function SectionDots({ activeSection }) {
+  return (
+    <nav className="section-dots" aria-label="Section navigation">
+      {navItems.map((item) => {
+        const id = item.toLowerCase();
+        return (
+          <a key={id} href={`#${id}`} className={activeSection === id ? 'active' : ''} aria-label={`Go to ${item}`}>
+            <span>{item}</span>
+          </a>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -54,8 +130,10 @@ function Nav() {
 }
 
 function Hero() {
+  const revealRef = useRevealSection();
+
   return (
-    <section id="home" className="hero-section">
+    <section id="home" ref={revealRef} className="hero-section reveal-section">
       <HeroDecorations />
       <div className="hero-intro card-fade" style={{ '--delay': '0.4s' }}>
         <p>{home.intro}</p>
@@ -82,8 +160,10 @@ function Hero() {
 }
 
 function About() {
+  const revealRef = useRevealSection();
+
   return (
-    <section id="about" className="section-shell about-section">
+    <section id="about" ref={revealRef} className="section-shell about-section reveal-section">
       <div className="section-heading">
         <p className="kicker">About</p>
         <h2>{about.title}</h2>
@@ -93,8 +173,7 @@ function About() {
         <article className="paper-note large-note">
           <p>{about.body}</p>
         </article>
-        <InfoCard title="Education" items={about.education} />
-        <InfoCard title="Research Interests" items={about.researchInterests} />
+        <AboutCardStack />
         <article className="paper-note direction-note">
           <p>{about.direction}</p>
         </article>
@@ -106,20 +185,51 @@ function About() {
   );
 }
 
-function InfoCard({ title, items }) {
+function AboutCardStack() {
+  const [activeCard, setActiveCard] = useState(0);
+  const cards = [
+    {
+      title: 'Education',
+      items: about.education,
+      count: '1/2',
+      className: 'education-card',
+    },
+    {
+      title: 'Research Interests',
+      items: about.researchInterests,
+      count: '2/2',
+      className: 'research-card',
+    },
+  ];
+  const toggleCard = () => setActiveCard((current) => (current === 0 ? 1 : 0));
+
   return (
-    <article className="paper-note small-note">
-      <h3>{title}</h3>
-      <ul>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </article>
+    <div className="about-stack" aria-label="Education and research interests cards">
+      {cards.map((card, index) => {
+        const isActive = activeCard === index;
+        return (
+          <button
+            type="button"
+            key={card.title}
+            className={`stack-card ${card.className} ${isActive ? 'is-front' : 'is-back'}`}
+            onClick={toggleCard}
+          >
+            <span className="stack-count">{card.count}</span>
+            <h3>{card.title}</h3>
+            <ul>
+              {card.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
 function Projects({ onOpenProject }) {
+  const revealRef = useRevealSection();
   const projectTypes = ['Interaction Design / UX', 'UX Design / Digital Health', 'Experience Design'];
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState('next');
@@ -173,7 +283,7 @@ function Projects({ onOpenProject }) {
   };
 
   return (
-    <section id="projects" className="section-shell projects-section">
+    <section id="projects" ref={revealRef} className="section-shell projects-section reveal-section">
       <div className="section-heading">
         <p className="kicker">Projects</p>
         <h2>{projectsIntro.title}</h2>
@@ -230,22 +340,36 @@ function Projects({ onOpenProject }) {
 }
 
 function Skills() {
+  const revealRef = useRevealSection();
+  const [activeFolder, setActiveFolder] = useState(0);
+  const folderColors = ['#ddeeff', '#fde8ee', '#fef6e0', '#e8f5ee'];
+
   return (
-    <section id="skills" className="section-shell skills-section">
+    <section id="skills" ref={revealRef} className="section-shell skills-section reveal-section">
       <div className="section-heading">
         <p className="kicker">Skills</p>
         <h2>Skills & Tools</h2>
         <p>My skills combine interaction design, research, prototyping, and visual communication across design and psychology contexts.</p>
       </div>
-      <div className="skill-scroll">
-        {skills.map((skill) => (
-          <article key={skill.title} className="skill-panel">
-            <h3>{skill.title}</h3>
-            <p>{skill.description}</p>
-            <div>
-              {skill.items.map((item) => (
-                <em key={item}>{item}</em>
+      <div className="folder-drawer">
+        {skills.map((skill, index) => (
+          <article
+            key={skill.title}
+            className={`skill-folder ${activeFolder === index ? 'is-open' : ''}`}
+            style={{ '--folder-color': folderColors[index], '--folder-delay': `${index * 0.1}s` }}
+          >
+            <button type="button" className="folder-tab" onClick={() => setActiveFolder(index)}>
+              {skill.title}
+            </button>
+            <div className="folder-body">
+              <p>{skill.description}</p>
+              <div className="folder-tags">
+                {skill.items.map((item, itemIndex) => (
+                  <em key={item} style={{ '--tag-delay': `${itemIndex * 0.05}s` }}>
+                    {item}
+                  </em>
               ))}
+            </div>
             </div>
           </article>
         ))}
@@ -255,11 +379,20 @@ function Skills() {
 }
 
 function Contact() {
+  const revealRef = useRevealSection();
+  const headline = "let's create something beautiful together";
+
   return (
-    <section id="contact" className="section-shell contact-section">
+    <section id="contact" ref={revealRef} className="section-shell contact-section reveal-section">
       <div className="contact-card">
         <p className="kicker">Contact</p>
-        <h2>let's create something beautiful together</h2>
+        <h2>
+          {headline.split(' ').map((word, index) => (
+            <span key={`${word}-${index}`} style={{ '--word-delay': `${0.18 + index * 0.08}s` }}>
+              {word}
+            </span>
+          ))}
+        </h2>
         <p>{contact.statement}</p>
         <div className="contact-links">
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
