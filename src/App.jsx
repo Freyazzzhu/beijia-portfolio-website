@@ -145,9 +145,6 @@ function Hero() {
       <div className="role-note card-fade" style={{ '--delay': '0.2s' }}>
         {home.title}
       </div>
-      <div className="welcome-note card-fade" style={{ '--delay': '0.3s' }}>
-        welcome to my little world ✦
-      </div>
       <div className="hero-copy">
         <p className="kicker">Personal Portfolio</p>
       </div>
@@ -234,14 +231,6 @@ function Projects({ onOpenProject }) {
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState('next');
 
-  const goToPage = (nextPage) => {
-    setPage((currentPage) => {
-      if (nextPage === currentPage) return currentPage;
-      setDirection(nextPage > currentPage ? 'next' : 'prev');
-      return nextPage;
-    });
-  };
-
   const goNext = () => {
     setPage((currentPage) => {
       if (currentPage >= projects.length - 1) return currentPage;
@@ -268,19 +257,17 @@ function Projects({ onOpenProject }) {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  const turningPages = useMemo(
-    () =>
-      projects.map((project, index) => ({
-        project,
-        type: projectTypes[index],
-      })),
-    [],
+  const activeProject = projects[page];
+  const activeType = projectTypes[page];
+  const rightPageTiles = useMemo(
+    () => [
+      { label: 'Process', src: activeProject.images.process[0] || activeProject.images.hero },
+      { label: 'Final', src: activeProject.images.final[0] || activeProject.images.hero },
+      { label: 'Details', src: activeProject.images.process[1] || activeProject.images.hero },
+      { label: 'Outcome', src: activeProject.images.final[1] || activeProject.images.hero },
+    ],
+    [activeProject],
   );
-  const getPageZ = (index) => {
-    if (direction === 'next' && index === page - 1) return projects.length + 2;
-    if (direction === 'prev' && index === page) return projects.length + 2;
-    return projects.length - Math.abs(index - page);
-  };
 
   return (
     <section id="projects" ref={revealRef} className="section-shell projects-section reveal-section">
@@ -294,45 +281,36 @@ function Projects({ onOpenProject }) {
         <button type="button" className="book-arrow book-arrow-left" onClick={goPrev} disabled={page === 0} aria-label="Previous project">
           ‹
         </button>
-        <div className="book-stage">
-          <div className="book-spine" />
-          {turningPages.map(({ project, type }, index) => (
-            <article
-              key={project.id}
-              className={`book-page ${index === page ? 'active' : ''} ${
-                index < page ? 'flipped' : ''
-              } ${index > page ? 'waiting' : ''}`}
-              style={{ '--z': getPageZ(index) }}
-            >
-              <div className="page-face">
-                <header>
-                  <span>{String(index + 1).padStart(2, '0')} / 03</span>
-                  <em>{type}</em>
-                </header>
-                <button onClick={() => onOpenProject(project)} aria-label={`Open ${project.title}`}>
-                  <img src={project.images.hero} alt={`${project.title} preview`} />
-                </button>
-                <div>
-                  <h3>{project.title}</h3>
-                  <p>{project.overview}</p>
-                </div>
+        <div className="open-book-stage">
+          <article key={activeProject.id} className="open-book-spread">
+            <div className="book-sheet book-left-page">
+              <button className="spread-hero" onClick={() => onOpenProject(activeProject)} aria-label={`Open ${activeProject.title}`}>
+                <img src={activeProject.images.hero} alt={`${activeProject.title} preview`} />
+              </button>
+              <div className="spread-copy">
+                <p>{activeType}</p>
+                <h3>{activeProject.title}</h3>
+                <span>{activeProject.overview}</span>
               </div>
-            </article>
-          ))}
+            </div>
+            <div className="book-center-fold" aria-hidden="true" />
+            <div className="book-sheet book-right-page">
+              <div className="right-page-grid">
+                {rightPageTiles.map((tile) => (
+                  <figure key={tile.label}>
+                    <img src={tile.src} alt={`${activeProject.title} ${tile.label.toLowerCase()}`} />
+                    <figcaption>{tile.label}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </article>
         </div>
         <button type="button" className="book-arrow book-arrow-right" onClick={goNext} disabled={page === projects.length - 1} aria-label="Next project">
           ›
         </button>
-        <div className="page-dots" aria-label="Project page indicator">
-          {projects.map((project, index) => (
-            <button
-              type="button"
-              key={project.id}
-              className={index === page ? 'active' : ''}
-              onClick={() => goToPage(index)}
-              aria-label={`Go to project ${index + 1}`}
-            />
-          ))}
+        <div className="spread-page-number">
+          {String(page + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
         </div>
       </div>
     </section>

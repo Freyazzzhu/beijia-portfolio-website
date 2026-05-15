@@ -1,7 +1,19 @@
 import portraitImage from '../assets/portfolio/portrait.JPG';
 import heartlineHero from '../assets/portfolio/heartline-hero.png';
+import heartlineProcess01 from '../assets/portfolio/heartline-process-01.png';
+import heartlineProcess02 from '../assets/portfolio/heartline-process-02.png';
+import heartlineFinal01 from '../assets/portfolio/heartline-final-01.png';
+import heartlineFinal02 from '../assets/portfolio/heartline-final-02.png';
 import floodSafeHero from '../assets/portfolio/flood-safe-hero.jpg';
+import floodSafeProcess01 from '../assets/portfolio/flood-safe-process-01.jpg';
+import floodSafeProcess02 from '../assets/portfolio/flood-safe-process-02.jpg';
+import floodSafeFinal01 from '../assets/portfolio/flood-safe-final-01.png';
+import floodSafeFinal02 from '../assets/portfolio/flood-safe-final-02.png';
 import disneyDreamHero from '../assets/portfolio/disney-dream-hero.png';
+import disneyDreamProcess01 from '../assets/portfolio/disney-dream-process-01.png';
+import disneyDreamProcess02 from '../assets/portfolio/disney-dream-process-02.png';
+import disneyDreamFinal01 from '../assets/portfolio/disney-dream-final-01.png';
+import disneyDreamFinal02 from '../assets/portfolio/disney-dream-final-02.png';
 import cvPdf from '../assets/portfolio/Beijia_Zhu_CV.pdf';
 
 export const home = {
@@ -66,8 +78,8 @@ export const projects = [
     ],
     images: {
       hero: heartlineHero,
-      final: [],
-      process: [],
+      final: [heartlineFinal01, heartlineFinal02],
+      process: [heartlineProcess01, heartlineProcess02],
     },
     featured: true,
   },
@@ -93,8 +105,8 @@ export const projects = [
     keywords: ['UX Design', 'User Research', 'Crisis Communication', 'Information Design', 'Public Safety'],
     images: {
       hero: floodSafeHero,
-      final: [],
-      process: [],
+      final: [floodSafeFinal01, floodSafeFinal02],
+      process: [floodSafeProcess01, floodSafeProcess02],
     },
   },
   {
@@ -128,8 +140,8 @@ export const projects = [
       'Presented as a student concept and digital transformation strategy, without official Disney logos or copyrighted character imagery.',
     images: {
       hero: disneyDreamHero,
-      final: [],
-      process: [],
+      final: [disneyDreamFinal01, disneyDreamFinal02],
+      process: [disneyDreamProcess01, disneyDreamProcess02],
     },
   },
 ];

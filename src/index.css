@@ -260,8 +260,7 @@ main {
   font-size: 1.2rem;
 }
 
-.role-note,
-.welcome-note {
+.role-note {
   position: absolute;
   z-index: 6;
   max-width: 17rem;
@@ -281,27 +280,21 @@ main {
   transform: rotate(-2deg);
 }
 
-.welcome-note {
-  left: 15%;
-  bottom: 20%;
-  background: rgba(244, 167, 185, 0.42);
-  transform: rotate(3deg);
-}
-
 .hero-intro {
   position: absolute;
-  left: 9%;
-  bottom: 12%;
+  left: 15%;
+  bottom: 20%;
   z-index: 6;
-  max-width: 25rem;
+  max-width: 21rem;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.72);
+  background: #fde8ee;
   box-shadow: var(--shadow);
-  color: #666;
-  font-size: 0.95rem;
-  line-height: 1.8;
+  color: var(--ink);
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.18;
   padding: 1rem 1.1rem;
-  transform: rotate(-1deg);
+  transform: rotate(-2deg);
 }
 
 .hero-decorations {
@@ -422,9 +415,9 @@ main {
 
 .about-stack {
   position: relative;
-  width: min(100%, 42rem);
+  width: 60%;
   height: clamp(10rem, 22vh, 13.5rem);
-  margin: clamp(0.9rem, 2vh, 1.2rem) 0;
+  margin: clamp(0.9rem, 2vh, 1.2rem) auto;
   isolation: isolate;
 }
 
@@ -531,159 +524,178 @@ main {
 
 .diary-book {
   position: relative;
-  width: min(100%, 58rem);
+  width: min(100%, 64rem);
   margin: 0 auto;
-  padding: clamp(0.6rem, 1.4vh, 1rem) 3rem clamp(2.4rem, 4vh, 3rem);
+  padding: clamp(0.4rem, 1vh, 0.8rem) 3.1rem clamp(2.3rem, 3.6vh, 2.8rem);
   perspective: 1800px;
 }
 
-.book-stage {
+.open-book-stage {
   position: relative;
-  height: clamp(25rem, 55vh, 34rem);
+  min-height: clamp(23rem, 52vh, 32rem);
   transform-style: preserve-3d;
 }
 
-.book-spine {
-  position: absolute;
-  left: 1rem;
-  top: 1.2rem;
-  bottom: 1.2rem;
-  z-index: 20;
-  width: 1.3rem;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(91, 127, 166, 0.26), rgba(255, 255, 255, 0.2));
-  box-shadow: 8px 0 22px rgba(0, 0, 0, 0.08);
-}
-
-.book-page {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z);
-  transform-origin: left center;
-  transform-style: preserve-3d;
-  transition: transform 0.9s cubic-bezier(0.2, 0.65, 0.2, 1), filter 0.9s ease;
-}
-
-.book-page.flipped {
-  transform: rotateY(-178deg);
-  pointer-events: none;
-}
-
-.book-page.waiting {
-  transform: rotateY(0deg) translateZ(calc(var(--z) * -1px));
-  pointer-events: none;
-}
-
-.book-page.active {
-  pointer-events: auto;
-}
-
-.book-page.active .page-face {
-  animation: pageSettle 0.6s ease both;
-}
-
-.diary-book.turn-next .book-page.active .page-face::after {
-  animation: pageShadowNext 0.9s ease both;
-}
-
-.diary-book.turn-prev .book-page.active .page-face::after {
-  animation: pageShadowPrev 0.9s ease both;
-}
-
-.page-face {
-  position: absolute;
-  inset: 0;
+.open-book-spread {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.2rem minmax(0, 1fr);
+  min-height: clamp(23rem, 52vh, 32rem);
+  border-radius: 12px;
+  background: linear-gradient(90deg, #fbf7ee 0%, #fffdf8 49%, #f5efe6 50%, #fffdf8 51%, #fbf7ee 100%);
+  box-shadow:
+    0 24px 55px rgba(74, 92, 110, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  transform-origin: center;
   overflow: hidden;
-  border-radius: 8px 14px 14px 8px;
-  background:
-    linear-gradient(90deg, rgba(91, 127, 166, 0.11), transparent 9%, transparent 88%, rgba(0, 0, 0, 0.04)),
-    radial-gradient(circle at 92% 6%, rgba(249, 228, 183, 0.52), transparent 14rem),
-    #faf8f4;
-  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08), 18px 18px 38px rgba(0, 0, 0, 0.08);
-  padding: clamp(0.9rem, 2vw, 1.4rem);
-  backface-visibility: hidden;
+  animation: spreadTurnIn 0.72s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.page-face::before {
-  content: '';
-  position: absolute;
-  right: -2rem;
-  top: 0;
-  bottom: 0;
-  width: 5rem;
-  background: radial-gradient(ellipse at right, rgba(0, 0, 0, 0.12), transparent 62%);
-  pointer-events: none;
+.diary-book.turn-next .open-book-spread {
+  animation-name: spreadTurnNext;
 }
 
-.page-face::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 38%, rgba(255, 255, 255, 0.18));
+.diary-book.turn-prev .open-book-spread {
+  animation-name: spreadTurnPrev;
 }
 
-.page-face header {
-  display: flex;
+.book-sheet {
+  position: relative;
+  padding: clamp(0.9rem, 1.8vw, 1.4rem);
+}
+
+.book-left-page {
+  display: grid;
+  grid-template-columns: 1.05fr 0.9fr;
+  gap: clamp(0.8rem, 1.8vw, 1.3rem);
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: clamp(0.45rem, 1.2vh, 0.8rem);
+  background:
+    linear-gradient(90deg, rgba(91, 127, 166, 0.08), transparent 14%),
+    #fffdf8;
 }
 
-.page-face header span {
-  color: var(--blue);
-  font-family: 'Caveat', cursive;
-  font-size: 1.55rem;
-  font-weight: 700;
+.book-right-page {
+  background:
+    linear-gradient(270deg, rgba(91, 127, 166, 0.08), transparent 14%),
+    #fffdf8;
 }
 
-.page-face header em {
-  color: #666;
-  font-style: normal;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-align: right;
-  text-transform: uppercase;
+.book-center-fold {
+  position: relative;
+  z-index: 5;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0.45), rgba(0, 0, 0, 0.11));
+  box-shadow:
+    -10px 0 22px rgba(0, 0, 0, 0.08),
+    10px 0 22px rgba(0, 0, 0, 0.08);
 }
 
-.page-face button:not(.book-arrow) {
+.spread-hero {
   display: block;
   width: 100%;
   overflow: hidden;
   border: 0;
   border-radius: 4px;
   background: var(--paper-blue);
+  box-shadow: var(--shadow);
   cursor: pointer;
+  transform: rotate(-1.2deg);
 }
 
-.page-face img {
+.spread-hero img,
+.right-page-grid img {
+  display: block;
   width: 100%;
-  height: clamp(11.5rem, 28vh, 17.5rem);
   object-fit: cover;
+}
+
+.spread-hero img {
+  height: clamp(13rem, 35vh, 23rem);
   transition: transform 0.6s ease, filter 0.6s ease;
 }
 
-.page-face button:hover img {
+.spread-hero:hover img {
   transform: scale(1.035);
   filter: brightness(1.04);
 }
 
-.page-face h3 {
-  margin: clamp(0.65rem, 1.4vh, 0.9rem) 0 0.25rem;
+.spread-copy {
+  align-self: center;
+  transform: rotate(0.6deg);
+}
+
+.spread-copy p {
+  margin: 0 0 0.5rem;
+  color: var(--blue);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.spread-copy h3 {
+  margin: 0 0 0.5rem;
   color: var(--ink);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.3rem, 5vw, 4rem);
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
   line-height: 0.9;
 }
 
-.page-face p {
-  max-width: 44rem;
+.spread-copy span {
   color: #555;
-  font-size: clamp(0.86rem, 1.7vh, 1rem);
+  font-size: clamp(0.84rem, 1.55vh, 0.98rem);
   line-height: 1.55;
+}
+
+.right-page-grid {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1.2vw, 0.9rem);
+}
+
+.right-page-grid figure {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.right-page-grid figure:nth-child(2),
+.right-page-grid figure:nth-child(3) {
+  transform: rotate(1deg);
+}
+
+.right-page-grid img {
+  height: 100%;
+  min-height: 8rem;
+}
+
+.right-page-grid figcaption {
+  position: absolute;
+  left: 0.55rem;
+  bottom: 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--blue);
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0.22rem 0.42rem;
+}
+
+.spread-page-number {
+  position: absolute;
+  left: 50%;
+  bottom: 0.42rem;
+  color: var(--blue);
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  transform: translateX(-50%);
 }
 
 .book-arrow {
@@ -985,12 +997,8 @@ footer {
   animation: noteBounceIn 0.65s var(--spring) 0.2s both;
 }
 
-.hero-section.is-visible .welcome-note {
-  animation: welcomeBounceIn 0.65s var(--spring) 0.3s both;
-}
-
 .hero-section.is-visible .hero-intro {
-  animation: introNoteIn 0.6s ease 0.45s both;
+  animation: introNoteIn 0.65s var(--spring) 0.3s both;
 }
 
 .hero-section.is-visible .doodle {
@@ -1129,25 +1137,14 @@ footer {
   }
 }
 
-@keyframes welcomeBounceIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px) rotate(3deg) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(3deg) scale(1);
-  }
-}
-
 @keyframes introNoteIn {
   from {
     opacity: 0;
-    transform: translateY(22px) rotate(-1deg);
+    transform: translateY(40px) rotate(-2deg) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateY(0) rotate(-1deg);
+    transform: translateY(0) rotate(-2deg) scale(1);
   }
 }
 
@@ -1232,6 +1229,39 @@ footer {
   to {
     opacity: 1;
     transform: translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+@keyframes spreadTurnIn {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.96) rotateX(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+@keyframes spreadTurnNext {
+  from {
+    opacity: 0.65;
+    transform: rotateY(12deg) translateX(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0) scale(1);
+  }
+}
+
+@keyframes spreadTurnPrev {
+  from {
+    opacity: 0.65;
+    transform: rotateY(-12deg) translateX(-30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0) scale(1);
   }
 }
 
@@ -1333,7 +1363,7 @@ footer {
 
   .hero-copy {
     left: 7%;
-    top: 61%;
+    top: 68%;
   }
 
   .portrait-collage {
@@ -1367,25 +1397,16 @@ footer {
     max-width: 68%;
   }
 
-  .welcome-note {
+  .hero-intro {
     position: absolute;
     left: 8%;
     right: auto;
     top: 53%;
     bottom: auto;
-    max-width: 68%;
-  }
-
-  .hero-intro {
-    position: absolute;
-    left: 7%;
-    right: 7%;
-    top: 12%;
-    bottom: auto;
-    max-width: none;
+    max-width: 49%;
     padding: 0.72rem 0.9rem;
-    font-size: 0.82rem;
-    line-height: 1.45;
+    font-size: 1.05rem;
+    line-height: 1.18;
   }
 
   .section-dots {
@@ -1401,6 +1422,7 @@ footer {
   }
 
   .about-stack {
+    width: 86%;
     height: 11.5rem;
   }
 
@@ -1408,12 +1430,35 @@ footer {
     padding-inline: 2.4rem;
   }
 
-  .book-stage {
-    height: 48vh;
+  .open-book-stage,
+  .open-book-spread {
+    min-height: 54vh;
   }
 
-  .page-face img {
-    height: 18vh;
+  .open-book-spread {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+  .book-center-fold {
+    display: none;
+  }
+
+  .book-left-page {
+    grid-template-columns: 1fr 1fr;
+    min-height: 28vh;
+  }
+
+  .book-right-page {
+    min-height: 20vh;
+  }
+
+  .spread-hero img {
+    height: 20vh;
+  }
+
+  .right-page-grid img {
+    min-height: 5.8rem;
   }
 
   .book-arrow {
