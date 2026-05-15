@@ -440,7 +440,10 @@ main::-webkit-scrollbar {
 
 .about-left-column {
   position: relative;
-  min-height: min(360px, 55vh);
+  display: flex;
+  min-height: min(420px, 58vh);
+  flex-direction: column;
+  justify-content: center;
   padding: 0.25rem 0;
 }
 
@@ -455,6 +458,7 @@ main::-webkit-scrollbar {
 .about-right-column {
   display: grid;
   min-width: 0;
+  padding: 40px 0;
   place-items: center;
 }
 
@@ -497,9 +501,9 @@ main::-webkit-scrollbar {
 
 .about-stack {
   position: relative;
-  width: min(86%, 34rem);
-  max-height: 200px;
-  height: min(200px, 24vh);
+  width: 90%;
+  min-height: 280px;
+  height: min(280px, 38vh);
   margin: 0 auto;
   isolation: isolate;
 }
@@ -515,7 +519,7 @@ main::-webkit-scrollbar {
   box-shadow: var(--shadow);
   color: var(--ink);
   cursor: pointer;
-  padding: clamp(0.95rem, 2.3vh, 1.35rem);
+  padding: 32px;
   text-align: left;
   transform-origin: center;
   transition:
@@ -535,7 +539,7 @@ main::-webkit-scrollbar {
 .stack-card.is-back {
   z-index: 1;
   opacity: 0.9;
-  transform: translate3d(8px, 8px, 0) scale(0.965) rotate(1deg);
+  transform: translate3d(16px, 16px, 0) scale(0.965) rotate(1deg);
 }
 
 .stack-card.is-front:hover {
@@ -565,7 +569,7 @@ main::-webkit-scrollbar {
   margin: 0 0 0.65rem;
   color: var(--blue);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(1.7rem, 3vw, 2.25rem);
+  font-size: 22px;
   line-height: 1;
 }
 
@@ -582,8 +586,8 @@ main::-webkit-scrollbar {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.68);
   padding: 0.44rem 0.62rem;
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 15px;
+  line-height: 1.8;
 }
 
 .direction-note {
@@ -1691,6 +1695,7 @@ footer {
   }
 
   .about-left-column {
+    display: block;
     min-height: 0;
     padding-bottom: 0.4rem;
   }
@@ -1701,6 +1706,7 @@ footer {
 
   .about-stack {
     width: 86%;
+    min-height: 11.5rem;
     height: 11.5rem;
   }
 
