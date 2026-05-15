@@ -266,6 +266,33 @@ button {
   line-height: 1.9;
 }
 
+.letter-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.letter-columns div {
+  border-top: 1px solid rgba(90, 66, 31, 0.28);
+  padding-top: 1rem;
+}
+
+.letter-columns h4 {
+  margin: 0 0 0.8rem;
+  color: #5a421f;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.letter-columns span {
+  display: block;
+  margin-top: 0.55rem;
+  color: #30251b;
+  line-height: 1.55;
+}
+
 .content-shell,
 .contact-shell {
   position: relative;
@@ -276,7 +303,15 @@ button {
 
 .content-shell h2,
 .contact-shell h2 {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-intro {
+  max-width: 52rem;
+  margin: 0 0 2.4rem;
+  color: rgba(232, 220, 200, 0.78);
+  font-size: 1.08rem;
+  line-height: 1.8;
 }
 
 .painting-grid {
@@ -286,9 +321,9 @@ button {
 }
 
 .painting-card {
-  min-height: 24rem;
+  min-height: 34rem;
   display: grid;
-  align-items: end;
+  grid-template-rows: 15rem 1fr;
   border: 10px ridge rgba(201, 168, 76, 0.76);
   background:
     linear-gradient(180deg, transparent 0%, rgba(6, 14, 31, 0.2) 40%, rgba(6, 14, 31, 0.88) 100%),
@@ -296,6 +331,20 @@ button {
   padding: 1.3rem;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48), inset 0 0 36px rgba(201, 168, 76, 0.08);
   transition: transform 340ms ease, box-shadow 340ms ease;
+}
+
+.painting-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 1px solid rgba(201, 168, 76, 0.26);
+  object-fit: cover;
+  filter: saturate(0.82) brightness(0.78);
+}
+
+.painting-card > div {
+  align-self: end;
+  padding-top: 1rem;
 }
 
 .painting-card:hover {
@@ -316,6 +365,34 @@ button {
 .timeline-item p {
   color: rgba(232, 220, 200, 0.78);
   line-height: 1.75;
+}
+
+.painting-card strong {
+  display: block;
+  margin-top: 0.8rem;
+  color: #c9a84c;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.painting-card ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.painting-card li,
+.skill-archive span {
+  border: 1px solid rgba(201, 168, 76, 0.24);
+  border-radius: 999px;
+  color: rgba(232, 220, 200, 0.78);
+  padding: 0.42rem 0.62rem;
+  font-size: 0.75rem;
 }
 
 .warm-shell {
@@ -374,6 +451,37 @@ button {
   background: linear-gradient(135deg, #ffe6a6, #c9a84c 42%, #8f3f1d);
   box-shadow: 0 0 24px rgba(201, 168, 76, 0.72);
   transform: rotate(-35deg);
+}
+
+.skill-archive {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.skill-archive article {
+  border: 1px solid rgba(58, 106, 170, 0.34);
+  border-radius: 1rem;
+  background: rgba(13, 34, 68, 0.38);
+  padding: 1.2rem;
+}
+
+.skill-archive h3 {
+  margin: 0;
+  color: #f3e9d4;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+}
+
+.skill-archive p {
+  color: rgba(232, 220, 200, 0.76);
+  line-height: 1.65;
+}
+
+.skill-archive div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .contact-shell {
@@ -494,7 +602,12 @@ button {
   }
 
   .painting-card {
-    min-height: 17rem;
+    min-height: auto;
+    grid-template-rows: 13rem 1fr;
+  }
+
+  .letter-columns {
+    grid-template-columns: 1fr;
   }
 
   .hotspot {

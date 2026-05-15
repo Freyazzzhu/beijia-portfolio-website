@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import './index.css';
+import { about, contact, home, projects, projectsIntro, skills } from './data/portfolio.js';
 
 const base = import.meta.env.BASE_URL;
 
@@ -30,42 +31,22 @@ const hotspots = [
   },
 ];
 
-const projects = [
-  {
-    title: 'HeartLine',
-    description:
-      'A speculative tangible interaction project translating digital dating gestures into a tactile, affective communication object.',
-  },
-  {
-    title: 'Flood Safe',
-    description:
-      'A public-safety UX concept for clearer flood preparedness, emergency communication, and decision-making under pressure.',
-  },
-  {
-    title: 'Disney Dream',
-    description:
-      'An immersive experience strategy exploring VR environments, AI-guided storytelling, and digital souvenirs.',
-  },
-];
-
 const timeline = [
   {
-    period: '2024 - Present',
-    title: 'Master of Interaction Design and Electronic Arts',
-    detail:
-      'Developing interaction design, prototyping, visual communication, and research-through-design practice at the University of Sydney.',
+    period: 'Current Study',
+    title: about.education[0],
+    detail: about.direction,
   },
   {
-    period: 'Design Research',
-    title: 'Human-centred Experience Studies',
+    period: 'Previous Study',
+    title: about.education[1],
     detail:
-      'Exploring how embodied interaction, healthcare UX, and emotionally meaningful technology can support everyday life.',
+      'A psychology foundation in human behaviour, emotion, perception, research methods, and behavioural understanding.',
   },
   {
-    period: 'Psychology Foundation',
-    title: 'Bachelor of Science in Psychology',
-    detail:
-      'Built a foundation in human behaviour, perception, research methods, and behavioural analysis at the University of Melbourne.',
+    period: 'Research Interests',
+    title: 'Human-centred technologies and design research',
+    detail: about.researchInterests.join(' / '),
   },
 ];
 
@@ -115,9 +96,9 @@ function RoomPage({ mouse, particles, onMouseMove, onNavigate }) {
       <img src={`${base}room.png`} alt="The Sunken Room" className="room-image" style={imageStyle} />
       <div className="room-vignette" />
       <div className="room-title">
-        <p>Beijia Zhu</p>
+        <p>{home.name}</p>
         <h1>The Sunken Room</h1>
-        <span>Explore the submerged study through its remembered objects.</span>
+        <span>{home.title}. {home.intro}</span>
       </div>
       <div className="particle-field" aria-hidden="true">
         {particles.map((particle) => (
@@ -172,17 +153,24 @@ function AboutPage() {
   return (
     <div className="letter-panel slide-up">
       <p className="eyebrow">From the writing desk</p>
-      <h2>Beijia Zhu</h2>
-      <h3>Interaction Designer & Design Researcher</h3>
-      <p>
-        I explore how thoughtful interaction design can make technology feel more human,
-        meaningful, and emotionally engaging. My work sits between human-computer interaction,
-        design research, psychology, and visual storytelling.
-      </p>
-      <p>
-        I am currently studying Master of Interaction Design and Electronic Arts at the University
-        of Sydney, with a background in Psychology from the University of Melbourne.
-      </p>
+      <h2>{home.name}</h2>
+      <h3>{home.title}</h3>
+      <p>{about.body}</p>
+      <p>{about.direction}</p>
+      <div className="letter-columns">
+        <div>
+          <h4>Education</h4>
+          {about.education.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+        <div>
+          <h4>Research Interests</h4>
+          {about.researchInterests.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -191,13 +179,21 @@ function PortfolioPage() {
   return (
     <div className="content-shell">
       <p className="eyebrow">The gallery wall</p>
-      <h2>Portfolio</h2>
+      <h2>{projectsIntro.title}</h2>
+      <p className="section-intro">{projectsIntro.overview}</p>
       <div className="painting-grid">
         {projects.map((project) => (
           <article key={project.title} className="painting-card">
+            <img src={project.images.hero} alt={`${project.title} project visual`} />
             <div>
               <h3>{project.title}</h3>
-              <p>{project.description}</p>
+              <strong>{project.type}</strong>
+              <p>{project.overview}</p>
+              <ul>
+                {project.keywords.slice(0, 4).map((keyword) => (
+                  <li key={keyword}>{keyword}</li>
+                ))}
+              </ul>
             </div>
           </article>
         ))}
@@ -223,6 +219,19 @@ function ExperiencePage() {
           </article>
         ))}
       </div>
+      <div className="skill-archive">
+        {skills.map((skill) => (
+          <article key={skill.title}>
+            <h3>{skill.title}</h3>
+            <p>{skill.description}</p>
+            <div>
+              {skill.items.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   );
 }
@@ -236,6 +245,7 @@ function ContactPage() {
     <div className="contact-shell">
       <p className="eyebrow">Beyond the curtain</p>
       <h2>Contact</h2>
+      <p className="section-intro">{contact.statement}</p>
       <form className="contact-form" onSubmit={handleSubmit}>
         <label>
           <span>Name</span>
@@ -252,11 +262,14 @@ function ContactPage() {
         <button type="submit">Send message</button>
       </form>
       <div className="contact-details">
-        <a href="mailto:bzhu0389@uni.sydney.edu.au">bzhu0389@uni.sydney.edu.au</a>
-        <a href="https://www.linkedin.com/in/beijia-zhu-a496a838a" target="_blank" rel="noreferrer">
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        <a href={contact.linkedin} target="_blank" rel="noreferrer">
           LinkedIn
         </a>
-        <span>Sydney, Australia</span>
+        <span>{contact.location}</span>
+        <a href={contact.cv} download>
+          Download CV
+        </a>
       </div>
     </div>
   );
