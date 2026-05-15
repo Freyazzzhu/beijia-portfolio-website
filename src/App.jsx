@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { about, contact, home, projects, projectsIntro, skills } from './data/portfolio.js';
 import './index.css';
 import flowerDoodle from './assets/collage/flower.png';
@@ -121,6 +121,56 @@ function InfoCard({ title, items }) {
 
 function Projects({ onOpenProject }) {
   const projectTypes = ['Interaction Design / UX', 'UX Design / Digital Health', 'Experience Design'];
+  const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState('next');
+
+  const goToPage = (nextPage) => {
+    setPage((currentPage) => {
+      if (nextPage === currentPage) return currentPage;
+      setDirection(nextPage > currentPage ? 'next' : 'prev');
+      return nextPage;
+    });
+  };
+
+  const goNext = () => {
+    setPage((currentPage) => {
+      if (currentPage >= projects.length - 1) return currentPage;
+      setDirection('next');
+      return currentPage + 1;
+    });
+  };
+
+  const goPrev = () => {
+    setPage((currentPage) => {
+      if (currentPage <= 0) return currentPage;
+      setDirection('prev');
+      return currentPage - 1;
+    });
+  };
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'ArrowRight') goNext();
+      if (event.key === 'ArrowLeft') goPrev();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  const turningPages = useMemo(
+    () =>
+      projects.map((project, index) => ({
+        project,
+        type: projectTypes[index],
+      })),
+    [],
+  );
+  const getPageZ = (index) => {
+    if (direction === 'next' && index === page - 1) return projects.length + 2;
+    if (direction === 'prev' && index === page) return projects.length + 2;
+    return projects.length - Math.abs(index - page);
+  };
 
   return (
     <section id="projects" className="section-shell projects-section">
@@ -129,20 +179,51 @@ function Projects({ onOpenProject }) {
         <h2>{projectsIntro.title}</h2>
         <p>{projectsIntro.overview}</p>
       </div>
-      <div className="project-mosaic">
-        {projects.map((project, index) => (
-          <article key={project.id} className={`project-tile tile-${index + 1}`}>
-            <button onClick={() => onOpenProject(project)} aria-label={`Open ${project.title}`}>
-              <img src={project.images.hero} alt={`${project.title} preview`} />
-              <span className="sketch-ring" />
-            </button>
-            <div>
-              <p>{projectTypes[index]}</p>
-              <h3>{project.title}</h3>
-              <span>{project.overview}</span>
-            </div>
-          </article>
-        ))}
+
+      <div className={`diary-book ${direction === 'next' ? 'turn-next' : 'turn-prev'}`}>
+        <button type="button" className="book-arrow book-arrow-left" onClick={goPrev} disabled={page === 0} aria-label="Previous project">
+          ‹
+        </button>
+        <div className="book-stage">
+          <div className="book-spine" />
+          {turningPages.map(({ project, type }, index) => (
+            <article
+              key={project.id}
+              className={`book-page ${index === page ? 'active' : ''} ${
+                index < page ? 'flipped' : ''
+              } ${index > page ? 'waiting' : ''}`}
+              style={{ '--z': getPageZ(index) }}
+            >
+              <div className="page-face">
+                <header>
+                  <span>{String(index + 1).padStart(2, '0')} / 03</span>
+                  <em>{type}</em>
+                </header>
+                <button onClick={() => onOpenProject(project)} aria-label={`Open ${project.title}`}>
+                  <img src={project.images.hero} alt={`${project.title} preview`} />
+                </button>
+                <div>
+                  <h3>{project.title}</h3>
+                  <p>{project.overview}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <button type="button" className="book-arrow book-arrow-right" onClick={goNext} disabled={page === projects.length - 1} aria-label="Next project">
+          ›
+        </button>
+        <div className="page-dots" aria-label="Project page indicator">
+          {projects.map((project, index) => (
+            <button
+              type="button"
+              key={project.id}
+              className={index === page ? 'active' : ''}
+              onClick={() => goToPage(index)}
+              aria-label={`Go to project ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

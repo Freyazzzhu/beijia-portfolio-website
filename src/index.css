@@ -234,13 +234,18 @@ button {
 
 .hero-intro {
   position: absolute;
-  right: 12%;
-  bottom: 15%;
+  left: 9%;
+  bottom: 12%;
   z-index: 6;
-  max-width: 27rem;
+  max-width: 25rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow);
   color: #666;
   font-size: 0.95rem;
   line-height: 1.8;
+  padding: 1rem 1.1rem;
+  transform: rotate(-1deg);
 }
 
 .hero-decorations {
@@ -394,37 +399,127 @@ button {
   fill: rgba(232, 240, 247, 0.95);
 }
 
-.project-mosaic {
-  display: grid;
-  grid-template-columns: 1.15fr 0.9fr;
-  gap: 1.6rem;
-  align-items: start;
+.diary-book {
+  position: relative;
+  width: min(100%, 58rem);
+  margin: 0 auto;
+  padding: 1.5rem 3rem 3.2rem;
+  perspective: 1800px;
 }
 
-.project-tile {
-  padding: 0.9rem;
-  transition: transform 0.6s ease, box-shadow 0.6s ease;
+.book-stage {
+  position: relative;
+  height: clamp(34rem, 70vw, 44rem);
+  transform-style: preserve-3d;
 }
 
-.project-tile:hover {
-  transform: scale(1.025) rotate(0deg) !important;
-  box-shadow: 5px 10px 28px rgba(0, 0, 0, 0.14);
+.book-spine {
+  position: absolute;
+  left: 1rem;
+  top: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 20;
+  width: 1.3rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(91, 127, 166, 0.26), rgba(255, 255, 255, 0.2));
+  box-shadow: 8px 0 22px rgba(0, 0, 0, 0.08);
 }
 
-.tile-1 {
-  grid-row: span 2;
-  transform: rotate(-1deg);
+.book-page {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.2, 0.65, 0.2, 1), filter 0.9s ease;
 }
 
-.tile-2 {
-  transform: rotate(2deg);
+.book-page.flipped {
+  transform: rotateY(-178deg);
+  pointer-events: none;
 }
 
-.tile-3 {
-  transform: rotate(-2deg);
+.book-page.waiting {
+  transform: rotateY(0deg) translateZ(calc(var(--z) * -1px));
+  pointer-events: none;
 }
 
-.project-tile button {
+.book-page.active {
+  pointer-events: auto;
+}
+
+.book-page.active .page-face {
+  animation: pageSettle 0.6s ease both;
+}
+
+.diary-book.turn-next .book-page.active .page-face::after {
+  animation: pageShadowNext 0.9s ease both;
+}
+
+.diary-book.turn-prev .book-page.active .page-face::after {
+  animation: pageShadowPrev 0.9s ease both;
+}
+
+.page-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 8px 14px 14px 8px;
+  background:
+    linear-gradient(90deg, rgba(91, 127, 166, 0.11), transparent 9%, transparent 88%, rgba(0, 0, 0, 0.04)),
+    radial-gradient(circle at 92% 6%, rgba(249, 228, 183, 0.52), transparent 14rem),
+    #faf8f4;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08), 18px 18px 38px rgba(0, 0, 0, 0.08);
+  padding: clamp(1.1rem, 3vw, 2rem);
+  backface-visibility: hidden;
+}
+
+.page-face::before {
+  content: '';
+  position: absolute;
+  right: -2rem;
+  top: 0;
+  bottom: 0;
+  width: 5rem;
+  background: radial-gradient(ellipse at right, rgba(0, 0, 0, 0.12), transparent 62%);
+  pointer-events: none;
+}
+
+.page-face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 38%, rgba(255, 255, 255, 0.18));
+}
+
+.page-face header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.page-face header span {
+  color: var(--blue);
+  font-family: 'Caveat', cursive;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.page-face header em {
+  color: #666;
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.page-face button:not(.book-arrow) {
   display: block;
   width: 100%;
   overflow: hidden;
@@ -434,33 +529,93 @@ button {
   cursor: pointer;
 }
 
-.project-tile img {
+.page-face img {
   width: 100%;
-  height: 18rem;
+  height: clamp(17rem, 37vw, 25rem);
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s ease, filter 0.6s ease;
 }
 
-.tile-1 img {
-  height: 31rem;
+.page-face button:hover img {
+  transform: scale(1.035);
+  filter: brightness(1.04);
 }
 
-.project-tile:hover img {
-  transform: scale(1.04);
-}
-
-.project-tile p {
-  margin: 1rem 0 0;
-  color: var(--blue);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.project-tile h3 {
-  margin: 0.2rem 0 0.4rem;
+.page-face h3 {
+  margin: 1.1rem 0 0.4rem;
   color: var(--ink);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.3rem, 4vw, 4.3rem);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 0.9;
+}
+
+.page-face p {
+  max-width: 44rem;
+  color: #555;
+  line-height: 1.75;
+}
+
+.book-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 30;
+  width: 2.6rem;
+  height: 4.8rem;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.54);
+  color: var(--blue);
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3rem;
+  line-height: 1;
+  box-shadow: var(--shadow);
+  transition: background 0.6s ease, transform 0.6s ease;
+}
+
+.book-arrow:hover {
+  background: rgba(255, 255, 255, 0.84);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.book-arrow:disabled {
+  opacity: 0.28;
+  cursor: default;
+  transform: translateY(-50%);
+}
+
+.book-arrow-left {
+  left: 0;
+}
+
+.book-arrow-right {
+  right: 0;
+}
+
+.page-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 0.7rem;
+  z-index: 32;
+  display: flex;
+  gap: 0.55rem;
+  transform: translateX(-50%);
+}
+
+.page-dots button {
+  width: 0.62rem;
+  height: 0.62rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(91, 127, 166, 0.28);
+  cursor: pointer;
+  transition: background 0.6s ease, transform 0.6s ease;
+}
+
+.page-dots button.active {
+  background: var(--blue);
+  transform: scale(1.35);
 }
 
 .skills-section {
@@ -620,6 +775,35 @@ footer {
   }
 }
 
+@keyframes pageSettle {
+  from {
+    transform: rotateY(-4deg) translateX(6px);
+  }
+  to {
+    transform: rotateY(0deg) translateX(0);
+  }
+}
+
+@keyframes pageShadowNext {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pageShadowPrev {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.45;
+  }
+}
+
 @media (max-width: 900px) {
   .floating-nav nav {
     display: none;
@@ -655,17 +839,21 @@ footer {
     width: 100%;
   }
 
-  .project-mosaic {
-    grid-template-columns: 1fr;
+  .diary-book {
+    padding-inline: 2.4rem;
   }
 
-  .tile-1 {
-    grid-row: auto;
+  .book-stage {
+    height: 34rem;
   }
 
-  .tile-1 img,
-  .project-tile img {
-    height: 16rem;
+  .page-face img {
+    height: 14rem;
+  }
+
+  .book-arrow {
+    width: 2.25rem;
+    height: 4rem;
   }
 
   .doodle {
