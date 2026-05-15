@@ -192,6 +192,7 @@ function About() {
 
 function AboutCardStack() {
   const [activeCard, setActiveCard] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const cards = [
     {
       title: 'Education',
@@ -206,54 +207,70 @@ function AboutCardStack() {
       className: 'research-card',
     },
   ];
-  const toggleCard = () => setActiveCard((current) => (current === 0 ? 1 : 0));
+  const toggleCard = () => {
+    if (!isOpen) {
+      setIsOpen(true);
+      return;
+    }
+    setActiveCard((current) => (current === 0 ? 1 : 0));
+  };
+  const active = cards[activeCard];
 
   return (
-    <div className="about-stack" aria-label="Education and research interests cards">
-      {cards.map((card, index) => {
-        const isActive = activeCard === index;
-        return (
-          <button
-            type="button"
-            key={card.title}
-            className={`stack-card ${card.className} ${isActive ? 'is-front' : 'is-back'}`}
-            onClick={toggleCard}
-          >
-            <span className="stack-count">{card.count}</span>
-            <h3>{card.title}</h3>
-            <ul>
-              {card.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </button>
-        );
-      })}
-    </div>
+    <button
+      type="button"
+      className={`about-envelope ${isOpen ? 'is-open' : ''} card-${activeCard}`}
+      onClick={toggleCard}
+      aria-label={isOpen ? `Show ${activeCard === 0 ? 'research interests' : 'education'}` : 'Open about envelope'}
+    >
+      <span className="envelope-back" aria-hidden="true" />
+      <span className="envelope-flap" aria-hidden="true" />
+      <span className="envelope-front" aria-hidden="true" />
+      {!isOpen && <span className="envelope-prompt">click to open</span>}
+      <img className="envelope-flower" src={flowerDoodle} alt="" aria-hidden="true" />
+      <span key={active.title} className={`envelope-card ${active.className}`}>
+        <span className="envelope-card-count">{activeCard === 0 ? '2/2 →' : '← 1/2'}</span>
+        <span className="envelope-card-title">{active.title}</span>
+        <span className="envelope-card-list">
+          {active.items.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </span>
+      </span>
+    </button>
   );
 }
 
-function Projects({ onOpenProject }) {
+function projectTiles(project) {
+  return [
+    { label: 'Process', src: project.images.process[0] || project.images.hero },
+    { label: 'Final', src: project.images.final[0] || project.images.hero },
+    { label: 'Details', src: project.images.process[1] || project.images.hero },
+    { label: 'Outcome', src: project.images.final[1] || project.images.hero },
+  ];
+}
+
+function Projects() {
   const revealRef = useRevealSection();
   const projectTypes = ['Interaction Design / UX', 'UX Design / Digital Health', 'Experience Design'];
   const [page, setPage] = useState(0);
-  const [direction, setDirection] = useState('next');
+  const [flip, setFlip] = useState(null);
   const [lightboxImage, setLightboxImage] = useState(null);
 
   const goNext = () => {
-    setPage((currentPage) => {
-      if (currentPage >= projects.length - 1) return currentPage;
-      setDirection('next');
-      return currentPage + 1;
-    });
+    if (flip || page >= projects.length - 1) return;
+    setFlip({ direction: 'next', from: page, to: page + 1 });
   };
 
   const goPrev = () => {
-    setPage((currentPage) => {
-      if (currentPage <= 0) return currentPage;
-      setDirection('prev');
-      return currentPage - 1;
-    });
+    if (flip || page <= 0) return;
+    setFlip({ direction: 'prev', from: page, to: page - 1 });
+  };
+
+  const finishFlip = () => {
+    if (!flip) return;
+    setPage(flip.to);
+    setFlip(null);
   };
 
   useEffect(() => {
@@ -265,19 +282,10 @@ function Projects({ onOpenProject }) {
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  }, [flip, page]);
 
   const activeProject = projects[page];
-  const activeType = projectTypes[page];
-  const rightPageTiles = useMemo(
-    () => [
-      { label: 'Process', src: activeProject.images.process[0] || activeProject.images.hero },
-      { label: 'Final', src: activeProject.images.final[0] || activeProject.images.hero },
-      { label: 'Details', src: activeProject.images.process[1] || activeProject.images.hero },
-      { label: 'Outcome', src: activeProject.images.final[1] || activeProject.images.hero },
-    ],
-    [activeProject],
-  );
+  const targetProject = flip ? projects[flip.to] : activeProject;
 
   return (
     <section id="projects" ref={revealRef} className="section-shell projects-section reveal-section">
@@ -286,55 +294,73 @@ function Projects({ onOpenProject }) {
         <h2>{projectsIntro.title}</h2>
       </div>
 
-      <div className={`diary-book ${direction === 'next' ? 'turn-next' : 'turn-prev'}`}>
-        <button type="button" className="book-arrow book-arrow-left" onClick={goPrev} disabled={page === 0} aria-label="Previous project">
+      <div className={`diary-book ${flip ? `is-flipping flip-${flip.direction}` : ''}`}>
+        <button type="button" className="book-arrow book-arrow-left" onClick={goPrev} disabled={page === 0 || Boolean(flip)} aria-label="Previous project">
           ‹
         </button>
         <div className="open-book-stage">
-          <article key={activeProject.id} className="open-book-spread">
-            <div className="book-sheet book-left-page">
-              <button
-                className="spread-hero"
-                onClick={() => setLightboxImage({ src: activeProject.images.hero, alt: `${activeProject.title} hero image` })}
-                aria-label={`View ${activeProject.title} hero image`}
-              >
-                <img src={activeProject.images.hero} alt={`${activeProject.title} preview`} />
-                <span className="zoom-hint">⌕</span>
-              </button>
-              <div className="spread-copy">
-                <p>{activeType}</p>
-                <h3>{activeProject.title}</h3>
-                <span>{activeProject.overview}</span>
+          <ProjectSpread project={targetProject} type={projectTypes[flip?.to ?? page]} onImageOpen={setLightboxImage} />
+          {flip && (
+            <div className={`page page-${flip.direction}`} onAnimationEnd={finishFlip}>
+              <div className="page-face front">
+                <ProjectSpread project={projects[flip.direction === 'next' ? flip.from : flip.to]} type={projectTypes[flip.direction === 'next' ? flip.from : flip.to]} onImageOpen={setLightboxImage} />
+              </div>
+              <div className="page-face back">
+                <ProjectSpread project={projects[flip.direction === 'next' ? flip.to : flip.from]} type={projectTypes[flip.direction === 'next' ? flip.to : flip.from]} onImageOpen={setLightboxImage} />
               </div>
             </div>
-            <div className="book-center-fold" aria-hidden="true" />
-            <div className="book-sheet book-right-page">
-              <div className="right-page-grid">
-                {rightPageTiles.map((tile) => (
-                  <figure key={tile.label}>
-                    <button
-                      type="button"
-                      className="album-photo-pop"
-                      onClick={() => setLightboxImage({ src: tile.src, alt: `${activeProject.title} ${tile.label.toLowerCase()}` })}
-                    >
-                      <img src={tile.src} alt={`${activeProject.title} ${tile.label.toLowerCase()}`} />
-                    </button>
-                    <figcaption>{tile.label}</figcaption>
-                  </figure>
-                ))}
-              </div>
-            </div>
-          </article>
+          )}
         </div>
-        <button type="button" className="book-arrow book-arrow-right" onClick={goNext} disabled={page === projects.length - 1} aria-label="Next project">
+        <button type="button" className="book-arrow book-arrow-right" onClick={goNext} disabled={page === projects.length - 1 || Boolean(flip)} aria-label="Next project">
           ›
         </button>
         <div className="spread-page-number">
-          {String(page + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+          {String((flip?.to ?? page) + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
         </div>
       </div>
       {lightboxImage && <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />}
     </section>
+  );
+}
+
+function ProjectSpread({ project, type, onImageOpen }) {
+  const rightPageTiles = useMemo(() => projectTiles(project), [project]);
+
+  return (
+    <article className="open-book-spread">
+      <div className="book-sheet book-left-page">
+        <button
+          className="spread-hero"
+          onClick={() => onImageOpen({ src: project.images.hero, alt: `${project.title} hero image` })}
+          aria-label={`View ${project.title} hero image`}
+        >
+          <img src={project.images.hero} alt={`${project.title} preview`} />
+          <span className="zoom-hint">⌕</span>
+        </button>
+        <div className="spread-copy">
+          <p>{type}</p>
+          <h3>{project.title}</h3>
+          <span>{project.overview}</span>
+        </div>
+      </div>
+      <div className="book-center-fold" aria-hidden="true" />
+      <div className="book-sheet book-right-page">
+        <div className="right-page-grid">
+          {rightPageTiles.map((tile) => (
+            <figure key={tile.label}>
+              <button
+                type="button"
+                className="album-photo-pop"
+                onClick={() => onImageOpen({ src: tile.src, alt: `${project.title} ${tile.label.toLowerCase()}` })}
+              >
+                <img src={tile.src} alt={`${project.title} ${tile.label.toLowerCase()}`} />
+              </button>
+              <figcaption>{tile.label}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </article>
   );
 }
 
