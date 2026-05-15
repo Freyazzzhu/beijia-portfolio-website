@@ -171,14 +171,21 @@ function About() {
         <h2>{about.title}</h2>
       </div>
       <div className="letter-card">
-        <h3>Dear visitor,</h3>
-        <article className="paper-note large-note">
-          <p>{about.body}</p>
-        </article>
-        <AboutCardStack />
-        <article className="paper-note direction-note">
-          <p>{about.direction}</p>
-        </article>
+        <div className="about-layout">
+          <div className="about-left-column">
+            <h3>Dear visitor,</h3>
+            <article className="paper-note large-note">
+              <p>{about.body}</p>
+            </article>
+            <article className="paper-note direction-note">
+              <p>{about.direction}</p>
+            </article>
+            <img className="about-deco-flower" src={flowerDoodle} alt="" aria-hidden="true" />
+          </div>
+          <div className="about-right-column">
+            <AboutCardStack />
+          </div>
+        </div>
         <svg className="wave-divider" viewBox="0 0 1200 90" preserveAspectRatio="none" aria-hidden="true">
           <path d="M0 48 C120 10 230 84 360 44 C520 -6 620 92 780 42 C940 -8 1040 80 1200 34 V90 H0 Z" />
         </svg>
@@ -235,6 +242,7 @@ function Projects({ onOpenProject }) {
   const projectTypes = ['Interaction Design / UX', 'UX Design / Digital Health', 'Experience Design'];
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState('next');
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   const goNext = () => {
     setPage((currentPage) => {
@@ -254,6 +262,7 @@ function Projects({ onOpenProject }) {
 
   useEffect(() => {
     const onKeyDown = (event) => {
+      if (event.key === 'Escape') setLightboxImage(null);
       if (event.key === 'ArrowRight') goNext();
       if (event.key === 'ArrowLeft') goPrev();
     };
@@ -279,7 +288,6 @@ function Projects({ onOpenProject }) {
       <div className="section-heading">
         <p className="kicker">Projects</p>
         <h2>{projectsIntro.title}</h2>
-        <p>{projectsIntro.overview}</p>
       </div>
 
       <div className={`diary-book ${direction === 'next' ? 'turn-next' : 'turn-prev'}`}>
@@ -289,8 +297,13 @@ function Projects({ onOpenProject }) {
         <div className="open-book-stage">
           <article key={activeProject.id} className="open-book-spread">
             <div className="book-sheet book-left-page">
-              <button className="spread-hero" onClick={() => onOpenProject(activeProject)} aria-label={`Open ${activeProject.title}`}>
+              <button
+                className="spread-hero"
+                onClick={() => setLightboxImage({ src: activeProject.images.hero, alt: `${activeProject.title} hero image` })}
+                aria-label={`View ${activeProject.title} hero image`}
+              >
                 <img src={activeProject.images.hero} alt={`${activeProject.title} preview`} />
+                <span className="zoom-hint">⌕</span>
               </button>
               <div className="spread-copy">
                 <p>{activeType}</p>
@@ -303,9 +316,13 @@ function Projects({ onOpenProject }) {
               <div className="right-page-grid">
                 {rightPageTiles.map((tile) => (
                   <figure key={tile.label}>
-                    <div className="album-photo-pop">
+                    <button
+                      type="button"
+                      className="album-photo-pop"
+                      onClick={() => setLightboxImage({ src: tile.src, alt: `${activeProject.title} ${tile.label.toLowerCase()}` })}
+                    >
                       <img src={tile.src} alt={`${activeProject.title} ${tile.label.toLowerCase()}`} />
-                    </div>
+                    </button>
                     <figcaption>{tile.label}</figcaption>
                   </figure>
                 ))}
@@ -320,7 +337,17 @@ function Projects({ onOpenProject }) {
           {String(page + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
         </div>
       </div>
+      {lightboxImage && <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />}
     </section>
+  );
+}
+
+function ImageLightbox({ image, onClose }) {
+  return (
+    <div className="image-lightbox" role="dialog" aria-modal="true">
+      <button className="image-lightbox-backdrop" type="button" onClick={onClose} aria-label="Close image preview" />
+      <img src={image.src} alt={image.alt} />
+    </div>
   );
 }
 
@@ -347,7 +374,6 @@ function Skills() {
               {skill.title}
             </button>
             <div className="folder-body">
-              <p>{skill.description}</p>
               <div className="folder-tags">
                 {skill.items.map((item, itemIndex) => (
                   <em key={item} style={{ '--tag-delay': `${itemIndex * 0.05}s` }}>
@@ -378,15 +404,15 @@ function Contact() {
             </span>
           ))}
         </h2>
+        <p className="contact-location">{contact.location}</p>
         <p>{contact.statement}</p>
         <div className="contact-links">
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-          <a href={contact.linkedin} target="_blank" rel="noreferrer">
-            LinkedIn
-          </a>
-          <span>{contact.location}</span>
+          <a href={`mailto:${contact.email}`}>Email</a>
           <a href={contact.cv} download>
             Download CV
+          </a>
+          <a href={contact.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
           </a>
         </div>
       </div>

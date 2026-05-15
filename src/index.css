@@ -430,12 +430,32 @@ main::-webkit-scrollbar {
   transform: rotate(-0.5deg);
 }
 
-.letter-card h3 {
+.about-layout {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: center;
+  min-height: 0;
+}
+
+.about-left-column {
+  position: relative;
+  min-height: min(360px, 55vh);
+  padding: 0.25rem 0 3.25rem;
+}
+
+.about-left-column h3 {
   margin: 0 0 0.5rem;
   color: var(--blue);
   font-family: 'Caveat', cursive;
   font-size: 32px;
   line-height: 0.9;
+}
+
+.about-right-column {
+  display: grid;
+  min-width: 0;
+  place-items: center;
 }
 
 .paper-note {
@@ -454,12 +474,32 @@ main::-webkit-scrollbar {
   line-height: 1.6;
 }
 
+.direction-note {
+  margin-top: 0.85rem;
+}
+
+.direction-note p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.about-deco-flower {
+  position: absolute;
+  left: 0.1rem;
+  bottom: 0;
+  width: min(7rem, 30%);
+  opacity: 0.5;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transform: rotate(-8deg);
+}
+
 .about-stack {
   position: relative;
-  width: 60%;
+  width: min(86%, 34rem);
   max-height: 200px;
   height: min(200px, 24vh);
-  margin: 0.75rem auto;
+  margin: 0 auto;
   isolation: isolate;
 }
 
@@ -560,8 +600,8 @@ main::-webkit-scrollbar {
 .wave-divider {
   display: block;
   width: calc(100% + 6rem);
-  height: 4rem;
-  margin: 2rem -3rem -3rem;
+  height: 2.6rem;
+  margin: 1rem -3rem -2.2rem;
   fill: rgba(232, 240, 247, 0.95);
 }
 
@@ -640,6 +680,7 @@ main::-webkit-scrollbar {
 }
 
 .spread-hero {
+  position: relative;
   display: block;
   width: 100%;
   overflow: hidden;
@@ -667,6 +708,32 @@ main::-webkit-scrollbar {
 .spread-hero:hover img {
   transform: scale(1.035);
   filter: brightness(1.04);
+}
+
+.zoom-hint {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 8px 20px rgba(44, 44, 44, 0.18);
+  color: var(--blue);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1.4rem;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.spread-hero:hover .zoom-hint {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .spread-copy {
@@ -733,42 +800,32 @@ main::-webkit-scrollbar {
 
 .album-photo-pop {
   position: relative;
+  display: block;
+  width: 100%;
   height: 180px;
   overflow: hidden;
+  border: 0;
   border-radius: 4px;
+  background: transparent;
+  cursor: zoom-in;
+  padding: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .right-page-grid img {
   height: 180px;
   object-fit: cover;
-  transition: height 0.3s ease, max-height 0.3s ease, width 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.right-page-grid figure:hover {
-  z-index: 40;
+.album-photo-pop:hover {
+  box-shadow: 0 14px 30px rgba(44, 44, 44, 0.16);
+  transform: translateY(-2px);
 }
 
-.right-page-grid figure:hover .album-photo-pop {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 45;
-  width: min(90vw, 540px);
-  height: auto;
-  max-height: 80vh;
-  overflow: visible;
-  border-radius: 8px;
-  box-shadow: 0 18px 45px rgba(44, 44, 44, 0.26);
-  transform: translate(-50%, -50%) scale(1.04);
-}
-
-.right-page-grid figure:hover img {
-  width: 100%;
-  height: auto;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 8px;
+.album-photo-pop:hover img {
+  filter: brightness(1.04);
+  transform: scale(1.035);
 }
 
 .right-page-grid figcaption {
@@ -954,7 +1011,7 @@ main::-webkit-scrollbar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 0.8rem 1rem 1rem;
+  padding: 1rem;
 }
 
 .folder-tags em {
@@ -1036,6 +1093,14 @@ main::-webkit-scrollbar {
   opacity: 0;
 }
 
+.contact-location {
+  margin: -0.35rem 0 0.75rem;
+  color: #777;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
 .contact-section {
   display: grid;
   place-items: center;
@@ -1043,14 +1108,17 @@ main::-webkit-scrollbar {
 
 .contact-links {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 0.55rem;
   margin-top: 1.4rem;
 }
 
-.contact-links a,
-.contact-links span {
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 9.5rem;
   border: 0;
   border-radius: 999px;
   background: #ddeeff;
@@ -1060,8 +1128,7 @@ main::-webkit-scrollbar {
   transition: background 0.6s ease, transform 0.6s ease;
 }
 
-.contact-links a:hover,
-.contact-links span:hover {
+.contact-links a:hover {
   background: #c9def5;
   transform: translateY(-3px);
 }
@@ -1073,6 +1140,36 @@ main::-webkit-scrollbar {
 
 .contact-links a[download]:hover {
   background: #486b91;
+}
+
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.image-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.62);
+  cursor: zoom-out;
+}
+
+.image-lightbox img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: min(92vw, 1100px);
+  max-height: 86vh;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+  object-fit: contain;
+  animation: lightboxIn 0.32s ease both;
 }
 
 footer {
@@ -1173,7 +1270,7 @@ footer {
   opacity: 0;
 }
 
-.letter-card > h3,
+.about-left-column > h3,
 .about-stack,
 .direction-note {
   opacity: 0;
@@ -1187,7 +1284,7 @@ footer {
   animation: riseIn 0.7s var(--spring) 0.1s both;
 }
 
-.about-section.is-visible .letter-card > h3 {
+.about-section.is-visible .about-left-column > h3 {
   animation: softFadeIn 0.55s ease 0.3s both;
 }
 
@@ -1475,6 +1572,17 @@ footer {
   }
 }
 
+@keyframes lightboxIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes pageSettle {
   from {
     transform: rotateY(-4deg) translateX(6px);
@@ -1569,11 +1677,25 @@ footer {
   }
 
   .section-heading h2 {
-    font-size: clamp(2.55rem, 12vw, 4.3rem);
+    font-size: 36px;
   }
 
   .letter-card {
     padding: 1rem;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .about-left-column {
+    min-height: 0;
+    padding-bottom: 0.4rem;
+  }
+
+  .about-deco-flower {
+    display: none;
   }
 
   .about-stack {
@@ -1600,7 +1722,6 @@ footer {
   }
 
   .book-left-page {
-    grid-template-columns: 1fr 1fr;
     min-height: 28vh;
   }
 
