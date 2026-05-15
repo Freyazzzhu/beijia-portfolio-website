@@ -1,4 +1,4 @@
-const assetBase = '/Beijia_Portfolio_Website';
+const assetBase = `${import.meta.env.BASE_URL}Beijia_Portfolio_Website`;
 
 export const home = {
   name: 'Beijia Zhu',
