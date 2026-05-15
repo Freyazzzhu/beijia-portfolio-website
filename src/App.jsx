@@ -177,10 +177,6 @@ function About() {
             <article className="paper-note large-note">
               <p>{about.body}</p>
             </article>
-            <article className="paper-note direction-note">
-              <p>{about.direction}</p>
-            </article>
-            <img className="about-deco-flower" src={flowerDoodle} alt="" aria-hidden="true" />
           </div>
           <div className="about-right-column">
             <AboutCardStack />
@@ -361,7 +357,6 @@ function Skills() {
       <div className="section-heading">
         <p className="kicker">Skills</p>
         <h2>Skills & Tools</h2>
-        <p>My skills combine interaction design, research, prototyping, and visual communication across design and psychology contexts.</p>
       </div>
       <div className="folder-drawer">
         {skills.map((skill, index) => (

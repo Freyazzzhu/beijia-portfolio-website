@@ -28,7 +28,7 @@ export const home = {
 export const about = {
   title: 'About Me',
   body:
-    'I am currently studying Master of Interaction Design and Electronic Arts at the University of Sydney, with a background in Psychology from the University of Melbourne. My work sits at the intersection of human-computer interaction, user research, and experience design. I am interested in how thoughtful interaction design can make technology feel more human, accessible, and emotionally meaningful.',
+    "I am an interaction design master's student with a psychology background, interested in how bodily, affective, and sensory forms of interaction can shape human–technology experience. My work engages with research-through-design, speculative design, tangible interaction, interaction prototyping, and quantitative behavioural research across design and psychology contexts.",
   direction:
     'I am interested in designing interactive experiences that connect people, technology, and everyday life through research, prototyping, and visual storytelling. My current direction focuses on human-centred technologies, meaningful digital experiences, and design research practices.',
   education: [

@@ -441,7 +441,7 @@ main::-webkit-scrollbar {
 .about-left-column {
   position: relative;
   min-height: min(360px, 55vh);
-  padding: 0.25rem 0 3.25rem;
+  padding: 0.25rem 0;
 }
 
 .about-left-column h3 {
@@ -463,13 +463,14 @@ main::-webkit-scrollbar {
 }
 
 .large-note {
-  background: transparent;
-  box-shadow: none;
-  padding: 0;
+  border-radius: 8px;
+  background: #fef6e0;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
 }
 
 .large-note p {
-  margin: 0 0 0.75rem;
+  margin: 0;
   font-size: 14px;
   line-height: 1.6;
 }
