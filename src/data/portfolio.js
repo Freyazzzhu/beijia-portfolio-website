@@ -1,4 +1,8 @@
-const assetBase = `${import.meta.env.BASE_URL}Beijia_Portfolio_Website`;
+import portraitImage from '../assets/portfolio/portrait.JPG';
+import heartlineHero from '../assets/portfolio/heartline-hero.png';
+import floodSafeHero from '../assets/portfolio/flood-safe-hero.jpg';
+import disneyDreamHero from '../assets/portfolio/disney-dream-hero.png';
+import cvPdf from '../assets/portfolio/Beijia_Zhu_CV.pdf';
 
 export const home = {
   name: 'Beijia Zhu',
@@ -6,7 +10,7 @@ export const home = {
   title: 'Interaction Designer & Design Researcher',
   intro:
     'I explore how thoughtful interaction design can make technology feel more human, meaningful, and emotionally engaging.',
-  portrait: `${assetBase}/01_Home/portrait.JPG`,
+  portrait: portraitImage,
 };
 
 export const about = {
@@ -61,15 +65,9 @@ export const projects = [
       'Design Fiction',
     ],
     images: {
-      hero: `${assetBase}/03_Projects/HeartLine/hero.png`,
-      final: [
-        `${assetBase}/03_Projects/HeartLine/final_01.png`,
-        `${assetBase}/03_Projects/HeartLine/final_02.png`,
-      ],
-      process: [
-        `${assetBase}/03_Projects/HeartLine/process_01.png`,
-        `${assetBase}/03_Projects/HeartLine/process_02.png`,
-      ],
+      hero: heartlineHero,
+      final: [],
+      process: [],
     },
     featured: true,
   },
@@ -94,15 +92,9 @@ export const projects = [
       'A UX concept that presents flood-related information in a clearer and more accessible way. The project demonstrates practical problem-solving, user-centred design thinking, and the ability to translate complex safety information into understandable digital experiences.',
     keywords: ['UX Design', 'User Research', 'Crisis Communication', 'Information Design', 'Public Safety'],
     images: {
-      hero: `${assetBase}/03_Projects/Flood_Safe/hero.jpg`,
-      final: [
-        `${assetBase}/03_Projects/Flood_Safe/final_01.png`,
-        `${assetBase}/03_Projects/Flood_Safe/final_02.png`,
-      ],
-      process: [
-        `${assetBase}/03_Projects/Flood_Safe/process_01.jpg`,
-        `${assetBase}/03_Projects/Flood_Safe/process_02.jpg`,
-      ],
+      hero: floodSafeHero,
+      final: [],
+      process: [],
     },
   },
   {
@@ -135,15 +127,9 @@ export const projects = [
     note:
       'Presented as a student concept and digital transformation strategy, without official Disney logos or copyrighted character imagery.',
     images: {
-      hero: `${assetBase}/03_Projects/Disney_Dream/hero.png`,
-      final: [
-        `${assetBase}/03_Projects/Disney_Dream/final_01.png`,
-        `${assetBase}/03_Projects/Disney_Dream/final_02.png`,
-      ],
-      process: [
-        `${assetBase}/03_Projects/Disney_Dream/process_01.png`,
-        `${assetBase}/03_Projects/Disney_Dream/process_02.png`,
-      ],
+      hero: disneyDreamHero,
+      final: [],
+      process: [],
     },
   },
 ];
@@ -203,5 +189,5 @@ export const contact = {
   email: 'bzhu0389@uni.sydney.edu.au',
   linkedin: 'https://www.linkedin.com/in/beijia-zhu-a496a838a',
   location: 'Sydney, Australia',
-  cv: `${assetBase}/05_Contact/Beijia_Zhu_CV.pdf`,
+  cv: cvPdf,
 };
