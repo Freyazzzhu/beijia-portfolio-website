@@ -1,0 +1,39 @@
+Project Title:
+Disney Dream
+
+Project Type:
+Digital Transformation Strategy / Immersive Experience / Concept Design
+
+Short Overview:
+Disney Dream is a digital transformation concept that extends theme park experiences beyond physical attendance through VR environments, AI-guided storytelling, virtual worlds, and digital souvenirs.
+
+Design Challenge:
+How might theme park experiences become more accessible, continuous, and personalised beyond the limits of physical attendance?
+
+Project Description:
+Disney Dream is a strategic concept for extending theme park experiences into a digital and immersive service model. The project explores how VR, AI-guided storytelling, virtual worlds, and digital souvenirs could allow audiences to engage with themed experiences from home or between physical visits. It focuses on access, personalisation, and the creation of ongoing relationships between audiences and immersive storyworlds.
+
+Process:
+- Analysed limitations of physical theme park attendance, including geography, cost, time, and capacity
+- Identified a strategic opportunity to extend immersive storyworlds beyond physical visits
+- Developed a concept combining VR environments, AI guidance, virtual worlds, and digital souvenirs
+- Created user journey scenarios, interface mockups, and strategic diagrams
+- Considered business value, user value, and implementation requirements
+
+Outcome:
+A digital transformation strategy and immersive experience concept that proposes a more flexible, scalable, and personalised way to access theme park experiences. The project demonstrates strategic thinking, experience design, and the use of emerging technologies in service innovation.
+
+Keywords:
+Digital Transformation
+Immersive Experience
+VR Experience
+AI-guided Storytelling
+Virtual Worlds
+Digital Souvenirs
+Concept Design
+
+Important Note:
+Do not use official Disney logos or copyrighted character imagery in the website presentation. Present this as a student concept and digital transformation strategy rather than an official Disney product.
+
+Suggested Visuals:
+Use abstract theme park visuals, VR interface mockups, user journey diagrams, strategy diagrams, AI guide interface screens, and digital souvenir concepts.

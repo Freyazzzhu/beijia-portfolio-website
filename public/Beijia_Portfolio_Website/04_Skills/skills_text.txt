@@ -1,0 +1,80 @@
+Section:
+Skills
+
+Title:
+Skills
+
+Overview:
+My skills combine interaction design, research, prototyping, and visual communication across design and psychology contexts.
+
+Interaction Direction:
+Instead of presenting all skills in one static grid, design this section as a vertical scrolling experience with four skill panels. Each panel should focus on one skill category. Users can scroll down to move through the four panels.
+
+Skill Panel 1:
+Title:
+Design & Prototyping
+
+Description:
+I use design and prototyping tools to translate ideas into clear visual systems, interaction flows, and interface concepts.
+
+Skills:
+- Figma
+- Adobe Photoshop
+- Adobe Premiere Pro
+- UI Design
+- Wireframing
+- Interaction Flow Design
+- Visual Communication
+
+Skill Panel 2:
+Title:
+Research & Evaluation
+
+Description:
+My research skills are shaped by both design and psychology contexts, supporting user-centred inquiry, evaluation, and behavioural understanding.
+
+Skills:
+- User Research
+- Usability Testing
+- Literature Review
+- Survey Design
+- Interview Preparation
+- Qualitative Analysis
+- Quantitative Behavioural Research
+
+Skill Panel 3:
+Title:
+Creative Technology
+
+Description:
+I explore digital and interactive media through prototyping, basic coding, AI-assisted workflows, and visual storytelling.
+
+Skills:
+- Basic HTML/CSS/JavaScript
+- AI-assisted Prototyping
+- Interactive Media Concepts
+- Video Editing
+- Digital Storytelling
+
+Skill Panel 4:
+Title:
+Communication
+
+Description:
+I communicate design ideas through academic writing, presentation, bilingual communication, and collaborative project work.
+
+Skills:
+- Academic Writing
+- Presentation
+- Bilingual Communication
+- Teamwork
+- Leadership
+
+Visual Direction:
+Create a clean, soft, professional vertical scrolling section. Each skill panel should feel like a separate calm page or card, with generous spacing, elegant typography, and subtle visual details. Use soft light colours, minimal icons, and gentle transitions. Avoid percentage bars or exaggerated skill ratings.
+
+Layout Suggestion:
+Each panel can occupy most of the screen height, allowing users to scroll vertically through four skill categories. Use a consistent layout for all panels: category title, short description, and skill list. The design should feel polished, readable, and slightly dreamy, matching the overall portfolio style.
+
+Navigation:
+Home / About / Projects / Skills / Contact

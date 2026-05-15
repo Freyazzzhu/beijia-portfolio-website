@@ -1,0 +1,27 @@
+Section:
+About
+
+Title:
+About Me
+
+About Text:
+I am currently studying Master of Interaction Design and Electronic Arts at the University of Sydney, with a background in Psychology from the University of Melbourne. My work sits at the intersection of human-computer interaction, user research, and experience design. I am interested in how thoughtful interaction design can make technology feel more human, accessible, and emotionally meaningful.
+
+Education:
+- Master of Interaction Design and Electronic Arts, University of Sydney
+- Bachelor of Science in Psychology, University of Melbourne
+
+Research Interests:
+- Human–Computer Interaction
+- Healthcare UX / Digital Health
+- Immersive and Embodied Interaction
+- Design Research / Research-through-Design
+
+Personal Direction:
+I am interested in designing interactive experiences that connect people, technology, and everyday life through research, prototyping, and visual storytelling. My current direction focuses on human-centred technologies, meaningful digital experiences, and design research practices.
+
+Visual Direction:
+The About section should feel calm, clean, and professional. Use a soft light background, generous spacing, and clear typography. The layout can include one short biography block, one education block, and one research interests block. Keep the section readable and not too text-heavy.
+
+Navigation:
+Home / About / Projects / Skills / Contact

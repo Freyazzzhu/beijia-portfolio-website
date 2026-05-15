@@ -1,0 +1,34 @@
+Project Title:
+Flood Safe
+
+Project Type:
+UX Design / Public Safety / Information Design
+
+Short Overview:
+Flood Safe is a UX design project that supports flood preparedness and emergency communication through clear, accessible, and user-centred information design.
+
+Design Challenge:
+How might we help people understand flood risks, prepare before emergencies, and access critical information during high-pressure situations?
+
+Project Description:
+Flood Safe is a user-centred design project focused on improving flood preparedness and emergency communication. The project explores how digital tools can make risk information easier to understand, support timely decision-making, and reduce confusion before and during flood events.
+
+Process:
+- Researched user needs and information challenges in emergency contexts
+- Identified key pain points around preparedness, communication, and decision-making
+- Developed user flows and information architecture for flood safety support
+- Designed interface screens and interaction flows
+- Considered clarity, accessibility, and urgency in visual and information design
+
+Outcome:
+A UX concept that presents flood-related information in a clearer and more accessible way. The project demonstrates practical problem-solving, user-centred design thinking, and the ability to translate complex safety information into understandable digital experiences.
+
+Keywords:
+UX Design
+User Research
+Crisis Communication
+Information Design
+Public Safety
+
+Suggested Visuals:
+Use app screens, user flow diagrams, information architecture, wireframes, prototype screens, and visual system examples.

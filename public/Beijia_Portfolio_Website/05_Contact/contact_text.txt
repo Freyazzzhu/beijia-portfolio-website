@@ -1,0 +1,32 @@
+Section:
+Contact
+
+Title:
+Contact
+
+Contact Statement:
+I am currently interested in research opportunities related to interaction design, human–technology experience, embodied interaction, and design research.
+
+Email:
+bzhu0389@uni.sydney.edu.au
+
+Location:
+Sydney, Australia
+
+CV:
+Beijia_Zhu_CV.pdf
+
+CV Button:
+Download CV
+
+LinkedIn:
+https://www.linkedin.com/in/beijia-zhu-a496a838a
+
+Visual Direction:
+Keep the Contact section minimal, calm, and professional. Use a clean layout with email, location, LinkedIn, and a CV download button. The page should feel open, approachable, and easy to read. Use soft light colours, elegant typography, generous spacing, and subtle abstract details if needed.
+
+Layout Suggestion:
+Place the contact statement at the top, followed by clearly separated contact details. The CV download button should be visible but not overly decorative. Keep the LinkedIn link simple and professional.
+
+Navigation:
+Home / About / Projects / Skills / Contact

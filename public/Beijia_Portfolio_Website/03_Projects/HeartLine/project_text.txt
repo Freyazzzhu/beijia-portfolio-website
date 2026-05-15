@@ -1,0 +1,34 @@
+Project Title:
+HeartLine
+
+Project Type:
+Speculative Interaction Design / Tangible Interaction / Design Fiction
+
+Short Overview:
+HeartLine reimagines dating-app interaction through a heart-shaped retro landline phone, translating digital swiping into tactile, emotional, and playful physical interaction.
+
+Design Challenge:
+How might we transform fast, screen-based dating interactions into a slower, more physical, and emotionally expressive experience?
+
+Project Description:
+HeartLine is a speculative interaction design project that explores how digital dating behaviours could be reinterpreted through a physical communication object. The project combines the familiarity of a retro landline phone with the interaction logic of contemporary dating apps, using tactile controls, emotional light feedback, and playful sound cues to create a more embodied form of connection.
+
+Process:
+- Developed the design fiction concept and interaction scenario
+- Explored the transformation of swipe-based dating logic into physical interaction
+- Designed tactile controls including a joystick-style accept/reject gesture
+- Created emotional feedback through breathing light states, flashes, and sound responses
+- Produced product visuals, packaging concepts, and advertisement-style presentation materials
+
+Outcome:
+A speculative product concept supported by product visuals, interaction logic, packaging design, and promotional materials. The project demonstrates how tangible interaction and affective feedback can challenge the speed and emotional flatness of screen-based dating experiences.
+
+Keywords:
+Speculative Design
+Tangible Interaction
+Affective Interaction
+Product Interaction
+Design Fiction
+
+Suggested Visuals:
+Use product renderings, interaction diagrams, light feedback visuals, packaging images, and advertisement-style images.

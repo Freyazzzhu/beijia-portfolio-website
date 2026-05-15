@@ -1,0 +1,25 @@
+Section:
+Projects
+
+Title:
+Selected Projects
+
+Overview:
+A collection of interaction design, UX, and digital experience projects exploring how technology can shape emotional, practical, and immersive human experiences.
+
+Featured Projects:
+1. HeartLine
+2. Flood Safe
+3. Disney Dream
+
+Page Structure:
+Use a clean project gallery layout with three featured project cards. Each card should include a hero image, project title, project type, short overview, and keywords.
+
+Suggested Layout:
+Place HeartLine as the first and most visually prominent project. Place Flood Safe and Disney Dream as supporting project cards. The layout should feel polished, image-led, and suitable for a personal portfolio website.
+
+Visual Direction:
+Use generous spacing, soft light colours, elegant typography, rounded project cards, and subtle hover interactions. The Projects section should feel professional, warm, and visually engaging without becoming too commercial or crowded.
+
+Navigation:
+Home / About / Projects / Skills / Contact

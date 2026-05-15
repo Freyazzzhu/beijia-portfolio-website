@@ -1,0 +1,20 @@
+Name:
+Beijia Zhu
+
+Preferred English Name:
+Freya
+
+Professional Title:
+Interaction Designer & Design Researcher
+
+Intro:
+I explore how thoughtful interaction design can make technology feel more human, meaningful, and emotionally engaging.
+
+Buttons:
+No buttons on the Home section.
+
+Home Visual:
+Use a personal portrait photo as the main visual. The layout should feel clean, soft, professional, and slightly dreamy. Use generous spacing, elegant typography, and a calm light colour palette. The page should feel suitable for a personal portfolio website for an interaction designer and design researcher.
+
+Navigation:
+Home / About / Projects / Skills / Contact
