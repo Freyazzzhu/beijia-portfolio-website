@@ -451,7 +451,7 @@ main::-webkit-scrollbar {
   margin: 0 0 0.5rem;
   color: var(--blue);
   font-family: 'Caveat', cursive;
-  font-size: 32px;
+  font-size: 36px;
   line-height: 0.9;
 }
 
@@ -459,6 +459,7 @@ main::-webkit-scrollbar {
   display: grid;
   min-width: 0;
   padding: 40px 0;
+  align-self: center;
   place-items: center;
 }
 
@@ -582,12 +583,29 @@ main::-webkit-scrollbar {
   list-style: none;
 }
 
+.education-card ul {
+  flex: 1;
+  width: 100%;
+  align-content: center;
+  gap: 12px;
+}
+
 .stack-card li {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.68);
   padding: 0.44rem 0.62rem;
   font-size: 15px;
   line-height: 1.8;
+}
+
+.education-card li {
+  width: 100%;
+  border-radius: 8px;
+  background: #ddeeff;
+  color: #3a5f8a;
+  padding: 14px 20px;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .direction-note {
