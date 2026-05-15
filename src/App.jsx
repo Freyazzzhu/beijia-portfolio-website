@@ -52,7 +52,7 @@ export default function App() {
     <div className="dream-site">
       <Nav />
       <SectionDots activeSection={activeSection} />
-      <main>
+      <main id="page-scroll">
         <Hero />
         <About />
         <Projects onOpenProject={setActiveProject} />
@@ -107,10 +107,15 @@ function Nav() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const scrollRoot = document.getElementById('page-scroll');
+    const onScroll = () => setScrolled((scrollRoot?.scrollTop || window.scrollY) > 24);
     onScroll();
+    scrollRoot?.addEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      scrollRoot?.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   return (
@@ -298,7 +303,9 @@ function Projects({ onOpenProject }) {
               <div className="right-page-grid">
                 {rightPageTiles.map((tile) => (
                   <figure key={tile.label}>
-                    <img src={tile.src} alt={`${activeProject.title} ${tile.label.toLowerCase()}`} />
+                    <div className="album-photo-pop">
+                      <img src={tile.src} alt={`${activeProject.title} ${tile.label.toLowerCase()}`} />
+                    </div>
                     <figcaption>{tile.label}</figcaption>
                   </figure>
                 ))}

@@ -21,6 +21,8 @@
 }
 
 html {
+  height: 100%;
+  overflow: hidden;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
   background: var(--paper-blue);
@@ -30,7 +32,8 @@ body {
   min-width: 320px;
   height: 100%;
   margin: 0;
-  overflow-x: hidden;
+  overflow: hidden;
+  scroll-snap-type: y mandatory;
   background:
     radial-gradient(circle at 15% 8%, rgba(255, 255, 255, 0.78), transparent 22rem),
     radial-gradient(circle at 82% 16%, rgba(244, 167, 185, 0.2), transparent 24rem),
@@ -61,7 +64,16 @@ button {
 }
 
 main {
-  min-height: 100vh;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+
+main::-webkit-scrollbar {
+  display: none;
 }
 
 .floating-nav {
@@ -167,7 +179,7 @@ main {
   overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  padding: 6.2rem clamp(1.25rem, 6vw, 5rem) 4rem;
+  padding: 60px clamp(1.25rem, 6vw, 5rem);
 }
 
 .hero-copy {
@@ -294,6 +306,7 @@ main {
   font-size: clamp(1.15rem, 2vw, 1.55rem);
   line-height: 1.18;
   padding: 1rem 1.1rem;
+  text-align: center;
   transform: rotate(-2deg);
 }
 
@@ -346,7 +359,7 @@ main {
   overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  padding: clamp(4.9rem, 8vh, 6rem) clamp(1.25rem, 5vw, 4rem) clamp(1.6rem, 4vh, 3rem);
+  padding: clamp(4.3rem, 7vh, 5rem) clamp(1.25rem, 5vw, 4rem) clamp(1rem, 2.5vh, 2rem);
 }
 
 .about-section,
@@ -357,20 +370,47 @@ main {
   justify-content: center;
 }
 
+.projects-section {
+  width: 100%;
+  max-width: none;
+}
+
 .section-heading {
   max-width: 52rem;
-  margin-bottom: clamp(1rem, 2.2vh, 1.6rem);
+  max-height: 80px;
+  margin-bottom: 0.8rem;
+  overflow: hidden;
 }
 
 .section-heading h2 {
   margin: 0.25rem 0 0;
   color: #2f5d8e;
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.8rem, 7vw, 5.6rem);
+  font-size: 48px;
   line-height: 0.9;
 }
 
-.section-heading p:not(.kicker),
+.about-section .section-heading h2,
+.projects-section .section-heading h2 {
+  font-size: 36px;
+}
+
+.projects-section .section-heading {
+  max-width: 75rem;
+}
+
+.projects-section .section-heading p:not(.kicker) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section-heading p:not(.kicker) {
+  margin: 0.35rem 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .paper-note p,
 .paper-note li,
 .project-tile span,
@@ -386,15 +426,15 @@ main {
   border-radius: 4px;
   background: #fff;
   box-shadow: var(--shadow);
-  padding: clamp(1.1rem, 3vh, 2rem);
+  padding: clamp(0.9rem, 2vh, 1.25rem);
   transform: rotate(-0.5deg);
 }
 
 .letter-card h3 {
-  margin: 0 0 clamp(0.7rem, 1.6vh, 1.1rem);
+  margin: 0 0 0.5rem;
   color: var(--blue);
   font-family: 'Caveat', cursive;
-  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  font-size: 32px;
   line-height: 0.9;
 }
 
@@ -409,15 +449,17 @@ main {
 }
 
 .large-note p {
-  margin: 0 0 clamp(0.8rem, 1.8vh, 1.2rem);
-  font-size: clamp(0.88rem, 1.7vh, 1rem);
+  margin: 0 0 0.75rem;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .about-stack {
   position: relative;
   width: 60%;
-  height: clamp(10rem, 22vh, 13.5rem);
-  margin: clamp(0.9rem, 2vh, 1.2rem) auto;
+  max-height: 200px;
+  height: min(200px, 24vh);
+  margin: 0.75rem auto;
   isolation: isolate;
 }
 
@@ -499,19 +541,20 @@ main {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.68);
   padding: 0.44rem 0.62rem;
-  font-size: clamp(0.78rem, 1.6vh, 0.9rem);
+  font-size: 13px;
   line-height: 1.35;
 }
 
 .direction-note {
-  margin-top: clamp(0.7rem, 1.5vh, 1rem);
+  margin-top: 0.7rem;
   background: rgba(249, 228, 183, 0.64);
   transform: rotate(0.8deg);
 }
 
 .direction-note p {
   margin: 0;
-  font-size: clamp(0.86rem, 1.6vh, 0.98rem);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .wave-divider {
@@ -524,15 +567,18 @@ main {
 
 .diary-book {
   position: relative;
-  width: min(100%, 64rem);
+  width: 90vw;
+  max-width: 1200px;
+  height: 480px;
   margin: 0 auto;
-  padding: clamp(0.4rem, 1vh, 0.8rem) 3.1rem clamp(2.3rem, 3.6vh, 2.8rem);
+  padding: 0 3.1rem 2rem;
   perspective: 1800px;
 }
 
 .open-book-stage {
   position: relative;
-  min-height: clamp(23rem, 52vh, 32rem);
+  height: 100%;
+  overflow: visible;
   transform-style: preserve-3d;
 }
 
@@ -540,14 +586,14 @@ main {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 1.2rem minmax(0, 1fr);
-  min-height: clamp(23rem, 52vh, 32rem);
+  height: 100%;
   border-radius: 12px;
   background: linear-gradient(90deg, #fbf7ee 0%, #fffdf8 49%, #f5efe6 50%, #fffdf8 51%, #fbf7ee 100%);
   box-shadow:
     0 24px 55px rgba(74, 92, 110, 0.18),
     inset 0 0 0 1px rgba(255, 255, 255, 0.7);
   transform-origin: center;
-  overflow: hidden;
+  overflow: visible;
   animation: spreadTurnIn 0.72s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
@@ -561,14 +607,16 @@ main {
 
 .book-sheet {
   position: relative;
-  padding: clamp(0.9rem, 1.8vw, 1.4rem);
+  min-width: 0;
+  min-height: 0;
+  padding: 1rem;
+  overflow: visible;
 }
 
 .book-left-page {
-  display: grid;
-  grid-template-columns: 1.05fr 0.9fr;
-  gap: clamp(0.8rem, 1.8vw, 1.3rem);
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   background:
     linear-gradient(90deg, rgba(91, 127, 166, 0.08), transparent 14%),
     #fffdf8;
@@ -578,6 +626,7 @@ main {
   background:
     linear-gradient(270deg, rgba(91, 127, 166, 0.08), transparent 14%),
     #fffdf8;
+  overflow: visible;
 }
 
 .book-center-fold {
@@ -610,7 +659,8 @@ main {
 }
 
 .spread-hero img {
-  height: clamp(13rem, 35vh, 23rem);
+  width: 100%;
+  height: 260px;
   transition: transform 0.6s ease, filter 0.6s ease;
 }
 
@@ -620,7 +670,9 @@ main {
 }
 
 .spread-copy {
-  align-self: center;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   transform: rotate(0.6deg);
 }
 
@@ -638,30 +690,40 @@ main {
   margin: 0 0 0.5rem;
   color: var(--ink);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  font-size: 32px;
   line-height: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .spread-copy span {
+  display: -webkit-box;
+  overflow: hidden;
   color: #555;
-  font-size: clamp(0.84rem, 1.55vh, 0.98rem);
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .right-page-grid {
   display: grid;
   height: 100%;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.55rem, 1.2vw, 0.9rem);
+  grid-auto-rows: 180px;
+  align-content: start;
+  gap: 0.75rem;
 }
 
 .right-page-grid figure {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
   border-radius: 4px;
   background: #fff;
   box-shadow: var(--shadow);
+  z-index: 1;
 }
 
 .right-page-grid figure:nth-child(2),
@@ -669,9 +731,44 @@ main {
   transform: rotate(1deg);
 }
 
+.album-photo-pop {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 .right-page-grid img {
-  height: 100%;
-  min-height: 8rem;
+  height: 180px;
+  object-fit: cover;
+  transition: height 0.3s ease, max-height 0.3s ease, width 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.right-page-grid figure:hover {
+  z-index: 40;
+}
+
+.right-page-grid figure:hover .album-photo-pop {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 45;
+  width: min(90vw, 540px);
+  height: auto;
+  max-height: 80vh;
+  overflow: visible;
+  border-radius: 8px;
+  box-shadow: 0 18px 45px rgba(44, 44, 44, 0.26);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.right-page-grid figure:hover img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .right-page-grid figcaption {
@@ -765,10 +862,15 @@ main {
   width: min(100%, 68rem);
 }
 
+.skills-section .section-heading {
+  height: 80px;
+}
+
 .folder-drawer {
   position: relative;
   display: grid;
   gap: clamp(0.45rem, 1.1vh, 0.75rem);
+  max-height: calc(100vh - 180px);
   padding-top: 0.4rem;
 }
 
@@ -835,7 +937,7 @@ main {
 }
 
 .skill-folder.is-open .folder-body {
-  max-height: 15rem;
+  max-height: 12rem;
   opacity: 1;
   transform: translateY(0) scaleY(1);
 }
@@ -871,19 +973,61 @@ main {
 }
 
 .contact-card {
+  position: relative;
+  max-height: 80vh;
   width: min(100%, 42rem);
   margin: 0 auto;
-  padding: clamp(1.35rem, 4vw, 2.6rem);
+  padding: clamp(1.25rem, 4vw, 2.4rem);
   text-align: center;
   transform: rotate(1deg);
+}
+
+.contact-card::before,
+.contact-card::after,
+.contact-card .kicker::before,
+.contact-card .kicker::after {
+  content: '';
+  position: absolute;
+  width: 2.1rem;
+  height: 1.4rem;
+  opacity: 0.48;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 50%, transparent 0.28rem, var(--blue) 0.3rem, var(--blue) 0.34rem, transparent 0.36rem),
+    radial-gradient(circle at 50% 50%, transparent 0.24rem, var(--pink) 0.26rem, var(--pink) 0.3rem, transparent 0.32rem),
+    linear-gradient(140deg, transparent 45%, var(--blue) 46%, var(--blue) 52%, transparent 53%);
+}
+
+.contact-card::before {
+  left: 1rem;
+  top: 1rem;
+  transform: rotate(-14deg);
+}
+
+.contact-card::after {
+  right: 1rem;
+  top: 1rem;
+  transform: rotate(18deg);
+}
+
+.contact-card .kicker::before {
+  left: 1rem;
+  bottom: 1rem;
+  transform: rotate(16deg);
+}
+
+.contact-card .kicker::after {
+  right: 1rem;
+  bottom: 1rem;
+  transform: rotate(-12deg);
 }
 
 .contact-card h2 {
   margin: 0.5rem 0 1rem;
   color: var(--blue);
   font-family: 'Caveat', cursive;
-  font-size: clamp(2.35rem, 6vw, 4.4rem);
-  line-height: 0.92;
+  font-size: 32px;
+  line-height: 1;
 }
 
 .contact-card h2 span {
@@ -907,17 +1051,28 @@ main {
 
 .contact-links a,
 .contact-links span {
-  border-radius: 4px;
-  background: rgba(232, 240, 247, 0.95);
+  border: 0;
+  border-radius: 999px;
+  background: #ddeeff;
   color: var(--ink);
   padding: 0.62rem 0.8rem;
   text-decoration: none;
   transition: background 0.6s ease, transform 0.6s ease;
 }
 
-.contact-links a:hover {
-  background: var(--cream);
+.contact-links a:hover,
+.contact-links span:hover {
+  background: #c9def5;
   transform: translateY(-3px);
+}
+
+.contact-links a[download] {
+  background: #5b7fa6;
+  color: #fff;
+}
+
+.contact-links a[download]:hover {
+  background: #486b91;
 }
 
 footer {
@@ -1432,12 +1587,12 @@ footer {
 
   .open-book-stage,
   .open-book-spread {
-    min-height: 54vh;
+    min-height: 0;
   }
 
   .open-book-spread {
     grid-template-columns: 1fr;
-    overflow: auto;
+    overflow: visible;
   }
 
   .book-center-fold {
