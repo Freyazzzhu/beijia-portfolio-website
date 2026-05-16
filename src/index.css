@@ -459,11 +459,32 @@ main::-webkit-scrollbar {
   min-height: min(420px, 58vh);
   flex-direction: column;
   justify-content: center;
+  isolation: isolate;
   padding: 0.25rem 0;
 }
 
+.about-left-column::after {
+  content: '';
+  position: absolute;
+  right: -2.6rem;
+  bottom: 1.4rem;
+  width: 9rem;
+  height: 12rem;
+  opacity: 0.22;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 65% 25%, rgba(125, 166, 205, 0.34), transparent 58%),
+    radial-gradient(circle at 72% 58%, rgba(244, 167, 185, 0.18), transparent 42%),
+    radial-gradient(circle at 36% 72%, rgba(221, 238, 255, 0.55), transparent 48%);
+  filter: blur(12px);
+  transform: rotate(-10deg);
+  z-index: 0;
+}
+
 .about-left-column h3 {
-  margin: 0 0 0.25rem 0.25rem;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.72rem 0.25rem;
   color: var(--blue);
   font-family: 'Caveat', cursive;
   font-size: 48px;
@@ -484,23 +505,36 @@ main::-webkit-scrollbar {
 }
 
 .large-note {
+  position: relative;
+  z-index: 1;
   width: min(100%, 480px);
-  border: 1px solid rgba(91, 127, 166, 0.18);
-  border-radius: 14px;
+  border: 1px solid rgba(91, 127, 166, 0.08);
+  border-radius: 16px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(246, 251, 255, 0.78)),
-    rgba(255, 255, 255, 0.78);
+    radial-gradient(circle at 92% 12%, rgba(221, 238, 255, 0.32), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(250, 253, 255, 0.58)),
+    rgba(255, 255, 255, 0.62);
   box-shadow:
-    0 14px 34px rgba(91, 127, 166, 0.12),
-    0 0 0 6px rgba(221, 238, 255, 0.18);
-  padding: 1.25rem 1.35rem;
-  backdrop-filter: blur(8px);
+    0 18px 42px rgba(91, 127, 166, 0.08),
+    0 0 26px rgba(221, 238, 255, 0.16);
+  padding: 1.32rem 1.42rem;
+  backdrop-filter: blur(10px);
+}
+
+.large-note::before {
+  content: '';
+  position: absolute;
+  inset: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 12px;
+  pointer-events: none;
 }
 
 .large-note p {
   margin: 0 0 0.82rem;
   color: #31465d;
   font-size: 13.5px;
+  font-weight: 400;
   line-height: 1.82;
 }
 
@@ -511,7 +545,7 @@ main::-webkit-scrollbar {
 .large-note mark {
   background: transparent;
   color: #4d78a6;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .direction-note {
