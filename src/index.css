@@ -370,6 +370,10 @@ main::-webkit-scrollbar {
   justify-content: center;
 }
 
+.about-section {
+  padding-top: clamp(6.2rem, 11vh, 7.4rem);
+}
+
 .projects-section {
   width: 100%;
   max-width: none;
@@ -886,7 +890,7 @@ main::-webkit-scrollbar {
 
 .spread-copy h3 {
   margin: 0 0 0.5rem;
-  color: var(--ink);
+  color: #1a3a5c;
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 32px;
   line-height: 0.9;
@@ -898,7 +902,7 @@ main::-webkit-scrollbar {
 .spread-copy span {
   display: -webkit-box;
   overflow: hidden;
-  color: #555;
+  color: #2c4a6e;
   font-size: 13px;
   line-height: 1.45;
   -webkit-box-orient: vertical;
@@ -1600,7 +1604,7 @@ footer {
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -225px);
+    transform: translate(-50%, -200px);
   }
 }
 
