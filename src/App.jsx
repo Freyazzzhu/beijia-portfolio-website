@@ -174,8 +174,16 @@ function About() {
         <div className="about-layout">
           <div className="about-left-column">
             <h3>Dear visitor,</h3>
-            <article className="paper-note large-note">
-              <p>{about.body}</p>
+            <article className="paper-note large-note personal-letter">
+              <p>
+                I’m <mark>Freya</mark>, an <mark>interaction design</mark> master’s student with a <mark>psychology</mark> background.
+              </p>
+              <p>
+                My work explores how bodily, affective, and sensory forms of interaction can shape more meaningful human–technology experiences.
+              </p>
+              <p>
+                I’m especially interested in <mark>research-through-design</mark>, speculative design, <mark>tangible interaction</mark>, and interaction prototyping.
+              </p>
             </article>
           </div>
           <div className="about-right-column">
