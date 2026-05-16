@@ -422,7 +422,7 @@ main::-webkit-scrollbar {
 
 .letter-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 4px;
   background: #fff;
   box-shadow: var(--shadow);
@@ -448,17 +448,17 @@ main::-webkit-scrollbar {
 }
 
 .about-left-column h3 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem 0;
   color: var(--blue);
   font-family: 'Caveat', cursive;
-  font-size: 36px;
+  font-size: 56px;
   line-height: 0.9;
 }
 
 .about-right-column {
   display: grid;
   min-width: 0;
-  padding: 40px 0;
+  padding: 72px 0 20px;
   align-self: center;
   place-items: center;
 }
@@ -469,7 +469,7 @@ main::-webkit-scrollbar {
 
 .large-note {
   border-radius: 8px;
-  background: #fef6e0;
+  background: #ddeeff;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   padding: 1rem;
 }
@@ -505,7 +505,7 @@ main::-webkit-scrollbar {
   display: block;
   width: 90%;
   height: 320px;
-  margin: 0 auto;
+  margin: 42px auto 0;
   border: 0;
   border-radius: 14px;
   background: transparent;
@@ -559,6 +559,7 @@ main::-webkit-scrollbar {
 }
 
 .about-envelope.is-open .envelope-flap {
+  z-index: 2;
   transform: rotateX(-180deg);
 }
 
@@ -577,7 +578,7 @@ main::-webkit-scrollbar {
   position: absolute;
   right: 1rem;
   bottom: 0.8rem;
-  z-index: 7;
+  z-index: 8;
   width: 4.2rem;
   opacity: 0.5;
   pointer-events: none;
@@ -588,11 +589,11 @@ main::-webkit-scrollbar {
 .envelope-card {
   position: absolute;
   left: 50%;
-  bottom: 2.25rem;
-  z-index: 3;
+  bottom: 40px;
+  z-index: 7;
   display: flex;
   width: min(86%, 34rem);
-  min-height: 245px;
+  min-height: 270px;
   flex-direction: column;
   border-radius: 8px;
   background: #fff;
@@ -602,7 +603,7 @@ main::-webkit-scrollbar {
   padding: 32px;
   pointer-events: none;
   text-align: left;
-  transform: translate(-50%, 60px);
+  transform: translate(-50%, 70px);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
@@ -1595,11 +1596,11 @@ footer {
 @keyframes envelopeCardSlide {
   from {
     opacity: 0;
-    transform: translate(-50%, 60px);
+    transform: translate(-50%, 70px);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -225px);
   }
 }
 
